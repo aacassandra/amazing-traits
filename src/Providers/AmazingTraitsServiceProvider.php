@@ -12,6 +12,13 @@ class AmazingTraitsServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $pathToNewFolder = app_path('Http/Controllers/API');
+
+        // Periksa apakah folder sudah ada sebelum membuatnya
+        if (!File::exists($pathToNewFolder)) {
+            File::makeDirectory($pathToNewFolder, 0777, true, true);
+        }
+
         $pathToAuthController = app_path('Http/Controllers/API/AuthController.php');
         if (File::exists($pathToAuthController)) {
             File::delete($pathToAuthController);
