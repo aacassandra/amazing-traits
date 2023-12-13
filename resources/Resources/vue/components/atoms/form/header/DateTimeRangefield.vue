@@ -1,0 +1,376 @@
+<template>
+  <div class="grid grid-cols-12">
+    <div :class="{ 'col-span-6': docs, 'col-span-12': !docs }">
+      <div :class="{ flex: true, 'flex-column': !inline }">
+        <div
+          :style="{
+            minWidth: inline ? (clientWidth < 640 ? 'unset' : '150px') : '',
+            maxWidth: inline ? (clientWidth < 640 ? 'unset' : '150px') : '',
+          }"
+          :class="{
+            'flex mb-2': true,
+            'flex-grow-0 mt-3 pl-0': inline && clientWidth > 639,
+            'flex-grow pl-0': !inline || clientWidth < 640,
+          }"
+        >
+          <label
+            :for="name"
+            :class="{
+              'block text-xs font-medium text-gray-900 dark:text-gray-300': true,
+              'text-red-700 dark:text-red-500':
+                properties.errors && properties.errors(name),
+            }"
+          >
+            {{ t(label) }}
+            <span
+              v-if="properties[name].rules.includes('required')"
+              class="text-red-600"
+            >
+              *
+            </span>
+          </label>
+          <div
+            v-if="information"
+            class="ft-sz-12 px-2 text-gray-300 dark:text-gray-800"
+          >
+            <i
+              class="fas fa-question-circle cursor-pointer"
+              @click="methods.onShowDoc"
+            ></i>
+          </div>
+        </div>
+        <div
+          :class="{
+            'px-0': true,
+            'relative flex-grow': inline || clientWidth < 640,
+            'flex-grow': !inline || clientWidth < 640,
+          }"
+        >
+          <input
+            :id="name"
+            autocomplete="off"
+            :class="{
+              [`flatpickr-${name}-date`]: true,
+              'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:bg-gray-200 disabled:text-gray-400 dark:disabled:text-gray-400 dark:disabled:bg-gray-600': true,
+              'bg-red-50 border border-red-500 text-red-900  placeholder-red-700 dark:placeholder-red-700 dark:text-red-700 text-sm rounded-lg focus:ring-red-500 focus:outline-none focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400':
+                properties.errors && properties.errors(name),
+            }"
+            type="text"
+            :placeholder="t(placeholder)"
+            :disabled="disabled"
+            :readonly="readonly"
+          />
+          <form-validation
+            :name="name"
+            :no-margin-top="true"
+            :properties="properties"
+          />
+        </div>
+      </div>
+    </div>
+    <div v-if="docs" :class="{ 'col-span-6 pl-3': true, 'pt-7': !inline }">
+      <Highlight language="js" :code="code" />
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import FormValidation from './Validation.vue'
+  import {
+    computed,
+    defineComponent,
+    inject,
+    onMounted,
+    reactive,
+    ref,
+    watch,
+    defineProps,
+    defineEmits,
+  } from 'vue'
+  import { Highlight } from '~/components/atoms'
+  import {
+    Default,
+    Value,
+  } from '~/types/components/atoms/forms/header/datetimerange'
+  import moment from 'moment'
+  import { Notyf, Flatpickr, t } from '~/services'
+  import { Lang } from '~/types/form/form-v1'
+
+  defineComponent({
+    name: 'DateRangefield',
+  })
+
+  const props = defineProps({
+    name: {
+      type: String,
+      required: true,
+    },
+    modelValue: {
+      type: Object as () => Value,
+      default: () => {
+        return {
+          start: '',
+          end: '',
+        }
+      },
+    },
+    outVal: {
+      type: Object as () => Value,
+      default: () => {
+        return {
+          start: '',
+          end: '',
+        }
+      },
+    },
+    input: {
+      type: String,
+      default: 'YYYY-MM-DD HH:mm',
+    },
+    output: {
+      type: String,
+      default: 'YYYY-MM-DD HH:mm',
+    },
+    label: {
+      type: String,
+      default: 'Label',
+    },
+    placeholder: {
+      type: [String, Object as () => Lang],
+      default: '',
+    },
+    listener: {
+      type: Function,
+      default: null,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
+    hidden: {
+      type: Boolean,
+      default: false,
+    },
+    inline: {
+      type: Boolean,
+      default: false,
+    },
+    docs: {
+      type: Boolean,
+      default: false,
+    },
+    information: {
+      type: String,
+      default: null,
+    },
+    properties: {
+      type: Object,
+      default: null,
+    },
+    fromGenerator: {
+      type: Boolean,
+      default: false,
+    },
+    default: {
+      type: Object as () => Default,
+      default: () => {
+        return {
+          start: 'now',
+          end: 'now',
+        }
+      },
+    },
+    ready: {
+      type: Number,
+      default: 0,
+    },
+    in24h: {
+      type: Boolean,
+      default: false,
+    },
+  })
+
+  const clientWidth = inject('clientWidth')
+  const emit = defineEmits(['update:modelValue', 'update:ready'])
+  const temp = reactive({
+    value_: {
+      start: null,
+      end: null,
+    },
+    value: computed({
+      get: () => props.modelValue,
+      set: (val) => emit('update:modelValue', val),
+    }),
+    ready: computed({
+      get: () => props.ready,
+      set: (val) => emit('update:ready', val),
+    }),
+  }) as {
+    value_: Value
+    value: Value
+    ready: number
+  }
+
+  const nativeEdit = ref(false)
+
+  const isReady = ref(false)
+  const init = ref()
+
+  const methods = {
+    onChange: (evt) => {
+      if (props.listener) {
+        props.listener(props.properties, evt.type, temp.value)
+      }
+    },
+    onShowDoc: () => {
+      Notyf({
+        type: 'info',
+        message: t(props.information),
+        duration: 3000,
+        ripple: true,
+        dismissible: true,
+        position: {
+          x: 'right',
+          y: 'top',
+        },
+      })
+    },
+  }
+
+  onMounted(() => {
+    temp.value_.start =
+      props.default.start === 'inherit'
+        ? moment(temp.value.start, props.input).format(props.output)
+        : props.default.start === 'now'
+        ? moment(new Date(), props.input).format(props.output)
+        : props.default.start
+
+    temp.value_.end =
+      props.default.end === 'inherit'
+        ? moment(temp.value.end, props.input).format(props.output)
+        : props.default.end === 'now'
+        ? moment(new Date(), props.input).format(props.output)
+        : props.default.end === 'tomorrow'
+        ? moment(new Date(), props.input).add(1, 'days').format(props.output)
+        : props.default.end
+
+    const defaultDate = [temp.value_.start, temp.value_.end]
+    setTimeout(() => {
+      init.value = Flatpickr(`.flatpickr-${props.name}-date`, {
+        mode: 'range',
+        enableTime: true,
+        time_24hr: props.in24h,
+        // https://flatpickr.js.org/formatting/
+        dateFormat: 'd-m-Y H:i',
+        defaultDate,
+        onDestroy() {
+          init.value.destroy()
+          methods.onChange({ type: 'destroy' })
+        },
+        onReady() {
+          isReady.value = true
+          if (props.fromGenerator) {
+            setTimeout(() => {
+              temp.ready++
+            }, 100)
+          }
+          methods.onChange({ type: 'ready' })
+        },
+        onChange(_, dateStr) {
+          const split = dateStr.split(' to ')
+          nativeEdit.value = true
+          temp.value.start = moment(split[0], props.output).format(props.input)
+          temp.value.end = moment(split[1], props.output).format(props.input)
+          setTimeout(() => {
+            if (split[1]) {
+              methods.onChange({ type: 'change' })
+            }
+          }, 200)
+          setTimeout(() => {
+            nativeEdit.value = false
+          }, 100)
+        },
+        onOpen() {
+          methods.onChange({ type: 'opened' })
+        },
+        onClose() {
+          methods.onChange({ type: 'closed' })
+        },
+        onMonthChange() {
+          methods.onChange({ type: 'month-change' })
+        },
+        onYearChange() {
+          methods.onChange({ type: 'year-change' })
+        },
+        onValueUpdate() {
+          methods.onChange({ type: 'updated' })
+        },
+      })
+    }, 500)
+  })
+
+  watch(
+    () => props.outVal,
+    () => {
+      if (
+        isReady.value &&
+        !nativeEdit.value &&
+        JSON.stringify(temp.value) !== JSON.stringify(props.outVal)
+      ) {
+        if (!props.outVal.start && !props.outVal.end) {
+          temp.value_.start = ''
+          temp.value_.end = ''
+
+          init.value.setDate('')
+        } else {
+          temp.value_.start = moment(props.outVal.start, props.input).format(
+            props.output,
+          )
+          temp.value_.end = moment(props.outVal.end, props.input).format(
+            props.output,
+          )
+          temp.value = props.outVal
+
+          setTimeout(() => {
+            init.value.setDate(`${temp.value_.start} to ${temp.value_.end}`)
+          }, 100)
+        }
+      }
+    },
+  )
+
+  const code = ref(`
+    {
+      type: 'datetimerangefield',
+      value: {
+        start: '',
+        end: ''
+      },
+      default: {
+        start: 'now',
+        end: 'now'
+      },
+      col: 'col-span-12 lg:col-span-6',
+      options: {
+        label: 'Date Time Range',
+        information: 'Help text example: Daterange',
+        inline: true,
+        placeholder: 'DD-MM-YYYY HH:mm to DD-MM-YYYY HH:mm',
+        format: 'd-m-Y H:i',
+        moment: 'DD-MM-YYYY HH:mm',
+        in24h: true,
+        readonly: false,
+        disabled: false,
+        hidden: false
+      },
+      listener: () => {
+        //
+      },
+      rules: ['required']
+    }
+  `)
+</script>

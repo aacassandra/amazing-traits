@@ -1,0 +1,24 @@
+{
+    "name": "aacassandra/amazing-traits",
+    "type": "library",
+    "license": "GPL",
+    "autoload": {
+        "psr-4": {
+            "AmazingTraits\\": "src/"
+        },
+        "files": [
+            "src/Helpers/Common.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Alauddin Afif Cassandra",
+            "email": "aacassandra@programmer.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0"
+    }
+}

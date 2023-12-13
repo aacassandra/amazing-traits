@@ -1,0 +1,708 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:300,regular,500,600,700,800,900%7CDM+Sans:regular,italic,500,500italic,700,700italic');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+.ft-sz-6 {
+  font-size: 6px !important;
+}
+
+.ft-sz-7 {
+  font-size: 7px !important;
+}
+
+.ft-sz-8 {
+  font-size: 8px !important;
+}
+
+.ft-sz-9 {
+  font-size: 9px !important;
+}
+
+.ft-sz-10 {
+  font-size: 10px !important;
+}
+
+.ft-sz-11 {
+  font-size: 11px !important;
+}
+
+.ft-sz-12 {
+  font-size: 12px !important;
+}
+
+.ft-sz-13 {
+  font-size: 13px !important;
+}
+
+.ft-sz-14 {
+  font-size: 14px !important;
+}
+
+.ft-sz-15 {
+  font-size: 15px !important;
+}
+
+.ft-sz-16 {
+  font-size: 16px !important;
+}
+
+.ft-sz-17 {
+  font-size: 17px !important;
+}
+
+.ft-sz-18 {
+  font-size: 18px !important;
+}
+
+.ft-sz-19 {
+  font-size: 19px !important;
+}
+
+.ft-sz-20 {
+  font-size: 20px !important;
+}
+
+.ft-sz-21 {
+  font-size: 21px !important;
+}
+
+.ft-sz-22 {
+  font-size: 22px !important;
+}
+
+.ft-sz-23 {
+  font-size: 23px !important;
+}
+
+.ft-sz-24 {
+  font-size: 24px !important;
+}
+
+.ft-sz-25 {
+  font-size: 25px !important;
+}
+
+.ft-sz-26 {
+  font-size: 26px !important;
+}
+
+.ft-sz-27 {
+  font-size: 27px !important;
+}
+
+.ft-sz-28 {
+  font-size: 28px !important;
+}
+
+.ft-sz-29 {
+  font-size: 29px !important;
+}
+
+.ft-sz-30 {
+  font-size: 30px !important;
+}
+
+.ft-sz-31 {
+  font-size: 31px !important;
+}
+
+.ft-sz-32 {
+  font-size: 32px !important;
+}
+
+.ft-sz-33 {
+  font-size: 33px !important;
+}
+
+.ft-sz-34 {
+  font-size: 34px !important;
+}
+
+.ft-sz-35 {
+  font-size: 35px !important;
+}
+
+.ft-dmsans-300 {
+  font-family: 'DM Sans',sans-serif;
+  font-weight: 300;
+}
+
+.ft-dmsans-400 {
+  font-family: 'DM Sans',sans-serif;
+  font-weight: 400;
+}
+
+.ft-dmsans-500 {
+  font-family: 'DM Sans',sans-serif;
+  font-weight: 500;
+}
+
+.ft-dmsans-600 {
+  font-family: 'DM Sans',sans-serif;
+  font-weight: 600;
+}
+
+.ft-dmsans-700 {
+  font-family: 'DM Sans',sans-serif;
+  font-weight: 700;
+}
+
+.ft-dmsans-800 {
+  font-family: 'DM Sans',sans-serif;
+  font-weight: 800;
+}
+
+.ft-dmsans-900 {
+  font-family: 'DM Sans',sans-serif;
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'SkaterGirls';
+  src: url(../fonts/skater_girls_rock.ttf);
+}
+
+.ft-skaters {
+  font-family: 'SkaterGirls', sans-serif;
+}
+
+@font-face {
+  font-family: 'DongleLight';
+  src: url(../fonts/Dongle-Light.ttf);
+}
+
+@font-face {
+  font-family: 'DongleRegular';
+  src: url(../fonts/Dongle-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'DongleBold';
+  src: url(../fonts/Dongle-Bold.ttf);
+}
+
+.ft-dongle-300 {
+  font-family: 'DongleLight', sans-serif;
+}
+
+.ft-dongle-400 {
+  font-family: 'DongleRegular', sans-serif;
+}
+
+.ft-dongle-700 {
+  font-family: 'DongleBold', sans-serif;
+}
+
+.ft-inter-200 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+}
+
+.ft-inter-300 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+}
+
+.ft-inter-500 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.ft-inter-600 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+.ft-inter-700 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+}
+
+.ft-inter-800 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+}
+
+.ft-inter-900 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'Nunito200';
+  src: url(../fonts/Nunito/NunitoSans-ExtraLight.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito200Italic';
+  src: url(../fonts/Nunito/NunitoSans-ExtraLightItalic.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito300';
+  src: url(../fonts/Nunito/NunitoSans-Light.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito300Italic';
+  src: url(../fonts/Nunito/NunitoSans-LightItalic.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito400';
+  src: url(../fonts/Nunito/NunitoSans-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito600';
+  src: url(../fonts/Nunito/NunitoSans-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito600Italic';
+  src: url(../fonts/Nunito/NunitoSans-SemiBoldItalic.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito700';
+  src: url(../fonts/Nunito/NunitoSans-Bold.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito700Italic';
+  src: url(../fonts/Nunito/NunitoSans-BoldItalic.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito800';
+  src: url(../fonts/Nunito/NunitoSans-ExtraBold.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito800Italic';
+  src: url(../fonts/Nunito/NunitoSans-ExtraBoldItalic.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito900';
+  src: url(../fonts/Nunito/NunitoSans-Black.ttf);
+}
+
+@font-face {
+  font-family: 'Nunito900Italic';
+  src: url(../fonts/Nunito/NunitoSans-BlackItalic.ttf);
+}
+
+.ft-nunito-200 {
+  font-family: 'Nunito200', sans-serif !important;
+}
+
+.ft-nunito-200i {
+  font-family: 'Nunito200Italic', sans-serif !important;
+}
+
+.ft-nunito-300 {
+  font-family: 'Nunito300', sans-serif !important;
+}
+
+.ft-nunito-300i {
+  font-family: 'Nunito300Italic', sans-serif !important;
+}
+
+.ft-nunito-400 {
+  font-family: 'Nunito400', sans-serif !important;
+}
+
+.ft-nunito-600 {
+  font-family: 'Nunito600', sans-serif !important;
+}
+
+.ft-nunito-600i {
+  font-family: 'Nunito600Italic', sans-serif !important;
+}
+
+.ft-nunito-700 {
+  font-family: 'Nunito700', sans-serif !important;
+}
+
+.ft-nunito-700i {
+  font-family: 'Nunito700Italic', sans-serif !important;
+}
+
+.ft-nunito-800 {
+  font-family: 'Nunito800', sans-serif !important;
+}
+
+.ft-nunito-800i {
+  font-family: 'Nunito800Italic', sans-serif !important;
+}
+
+.ft-nunito-900 {
+  font-family: 'Nunito900', sans-serif !important;
+}
+
+.ft-nunito-900i {
+  font-family: 'Nunito900Italic', sans-serif !important;
+}
+
+@font-face {
+    font-family: 'Poppins100';
+    src: url(../fonts/Poppins/Poppins-Thin.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins100Italic';
+    src: url(../fonts/Poppins/Poppins-ThinItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins200';
+    src: url(../fonts/Poppins/Poppins-ExtraLight.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins200Italic';
+    src: url(../fonts/Poppins/Poppins-ExtraLightItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins300';
+    src: url(../fonts/Poppins/Poppins-Light.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins300Italic';
+    src: url(../fonts/Poppins/Poppins-LightItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins400';
+    src: url(../fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins500';
+    src: url(../fonts/Poppins/Poppins-Medium.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins500Italic';
+    src: url(../fonts/Poppins/Poppins-MediumItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins600';
+    src: url(../fonts/Poppins/Poppins-SemiBold.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins600Italic';
+    src: url(../fonts/Poppins/Poppins-SemiBoldItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins700';
+    src: url(../fonts/Poppins/Poppins-Bold.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins700Italic';
+    src: url(../fonts/Poppins/Poppins-BoldItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins800';
+    src: url(../fonts/Poppins/Poppins-ExtraBold.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins800Italic';
+    src: url(../fonts/Poppins/Poppins-ExtraBoldItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins900';
+    src: url(../fonts/Poppins/Poppins-Black.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins900Italic';
+    src: url(../fonts/Poppins/Poppins-BlackItalic.ttf);
+}
+
+.ft-poppins-100 {
+    font-family: 'Poppins100', sans-serif !important;
+}
+
+.ft-poppins-100i {
+    font-family: 'Poppins100Italic', sans-serif !important;
+}
+
+.ft-poppins-200 {
+    font-family: 'Poppins200', sans-serif !important;
+}
+
+.ft-poppins-200i {
+    font-family: 'Poppins200Italic', sans-serif !important;
+}
+
+.ft-poppins-300 {
+    font-family: 'Poppins300', sans-serif !important;
+}
+
+.ft-poppins-300i {
+    font-family: 'Poppins300Italic', sans-serif !important;
+}
+
+.ft-poppins-400 {
+    font-family: 'Poppins400', sans-serif !important;
+}
+
+.ft-poppins-400i {
+    font-family: 'Poppins400Italic', sans-serif !important;
+}
+
+.ft-poppins-500 {
+    font-family: 'Poppins500', sans-serif !important;
+}
+
+.ft-poppins-500i {
+    font-family: 'Poppins500Italic', sans-serif !important;
+}
+
+.ft-poppins-600 {
+    font-family: 'Poppins600', sans-serif !important;
+}
+
+.ft-poppins-600i {
+    font-family: 'Poppins600Italic', sans-serif !important;
+}
+
+.ft-poppins-700 {
+    font-family: 'Poppins700', sans-serif !important;
+}
+
+.ft-poppins-700i {
+    font-family: 'Poppins700Italic', sans-serif !important;
+}
+
+.ft-poppins-800 {
+    font-family: 'Poppins800', sans-serif !important;
+}
+
+.ft-poppins-800i {
+    font-family: 'Poppins800Italic', sans-serif !important;
+}
+
+.ft-poppins-900 {
+    font-family: 'Poppins900', sans-serif !important;
+}
+
+.ft-poppins-900i {
+    font-family: 'Poppins900Italic', sans-serif !important;
+}
+
+@font-face {
+    font-family: Rubik300;
+    src: url(../fonts/Rubik/rubik-v7-latin-300.ttf);
+}
+
+@font-face {
+    font-family: Rubik400;
+    src: url(../fonts/Rubik/rubik-v7-latin-regular.ttf);
+}
+
+@font-face {
+    font-family: Rubik500;
+    src: url(../fonts/Rubik/rubik-v7-latin-500.ttf);
+}
+
+@font-face {
+    font-family: Rubik700;
+    src: url(../fonts/Rubik/rubik-v7-latin-700.ttf);
+}
+
+.ft-rubik-300 {
+    font-family: 'Rubik300', sans-serif !important;
+}
+
+.ft-rubik-400 {
+    font-family: 'Rubik400', sans-serif !important;
+}
+
+.ft-rubik-500 {
+    font-family: 'Rubik500', sans-serif !important;
+}
+
+.ft-rubik-700 {
+    font-family: 'Rubik700', sans-serif !important;
+}
+
+@font-face {
+    font-family: 'SFProDisplay100';
+    src: url(../fonts/SFProDisplay/sf-pro-display-thin.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay100Italic';
+    src: url(../fonts/SFProDisplay/sf-pro-display-thinitalic.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay200';
+    src: url(../fonts/SFProDisplay/sf-pro-display-ultralight.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay200Italic';
+    src: url(../fonts/SFProDisplay/sf-pro-display-ultralightitalic.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay300';
+    src: url(../fonts/SFProDisplay/sf-pro-display-light.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay300Italic';
+    src: url(../fonts/SFProDisplay/sf-pro-display-lightitalic.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay400';
+    src: url(../fonts/SFProDisplay/sf-pro-display-regular.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay400Italic';
+    src: url(../fonts/SFProDisplay/sf-pro-display-regularitalic.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay500';
+    src: url(../fonts/SFProDisplay/sf-pro-display-medium.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay500Italic';
+    src: url(../fonts/SFProDisplay/sf-pro-display-mediumitalic.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay600';
+    src: url(../fonts/SFProDisplay/sf-pro-display-semibold.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay600Italic';
+    src: url(../fonts/SFProDisplay/sf-pro-display-semibolditalic.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay700';
+    src: url(../fonts/SFProDisplay/sf-pro-display-bold.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay700Italic';
+    src: url(../fonts/SFProDisplay/sf-pro-display-bolditalic.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay800';
+    src: url(../fonts/SFProDisplay/sf-pro-display-heavy.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay800Italic';
+    src: url(../fonts/SFProDisplay/sf-pro-display-heavyitalic.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay900';
+    src: url(../fonts/SFProDisplay/sf-pro-display-black.woff2);
+}
+
+@font-face {
+    font-family: 'SFProDisplay900Italic';
+    src: url(../fonts/SFProDisplay/sf-pro-display-blackitalic.woff2);
+}
+
+.ft-spd-100 {
+    font-family: 'SFProDisplay100', sans-serif !important;
+}
+
+.ft-spd-100i {
+    font-family: 'SFProDisplay100Italic', sans-serif !important;
+}
+
+.ft-spd-200 {
+    font-family: 'SFProDisplay200', sans-serif !important;
+}
+
+.ft-spd-200i {
+    font-family: 'SFProDisplay200Italic', sans-serif !important;
+}
+
+.ft-spd-300 {
+    font-family: 'SFProDisplay300', sans-serif !important;
+}
+
+.ft-spd-300i {
+    font-family: 'SFProDisplay300Italic', sans-serif !important;
+}
+
+.ft-spd-400 {
+    font-family: 'SFProDisplay400', sans-serif !important;
+}
+
+.ft-spd-400i {
+    font-family: 'SFProDisplay400Italic', sans-serif !important;
+}
+
+.ft-spd-500 {
+    font-family: 'SFProDisplay500', sans-serif !important;
+}
+
+.ft-spd-500i {
+    font-family: 'SFProDisplay500Italic', sans-serif !important;
+}
+
+.ft-spd-600 {
+    font-family: 'SFProDisplay600', sans-serif !important;
+}
+
+.ft-spd-600i {
+    font-family: 'SFProDisplay600Italic', sans-serif !important;
+}
+
+.ft-spd-700 {
+    font-family: 'SFProDisplay700', sans-serif !important;
+}
+
+.ft-spd-700i {
+    font-family: 'SFProDisplay700Italic', sans-serif !important;
+}
+
+.ft-spd-800 {
+    font-family: 'SFProDisplay800', sans-serif !important;
+}
+
+.ft-spd-800i {
+    font-family: 'SFProDisplay800Italic', sans-serif !important;
+}
+
+.ft-spd-900 {
+    font-family: 'SFProDisplay900', sans-serif !important;
+}
+
+.ft-spd-900i {
+    font-family: 'SFProDisplay900Italic', sans-serif !important;
+}
+
+@font-face {
+  font-family: 'VAGRounded';
+  src: url(../fonts/VAG-Rounded-Bold.ttf);
+}
+
+.ft-vag-rounded {
+  font-family: 'VAGRounded', sans-serif !important;
+}

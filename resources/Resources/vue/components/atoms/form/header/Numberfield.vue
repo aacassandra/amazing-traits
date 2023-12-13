@@ -1,0 +1,309 @@
+<template>
+  <div class="grid grid-cols-12">
+    <div :class="{ 'col-span-6': docs, 'col-span-12': !docs }">
+      <div :class="{ flex: true, 'flex-column': !inline }">
+        <div
+          :style="{
+            minWidth: inline ? (clientWidth < 640 ? 'unset' : '150px') : '',
+            maxWidth: inline ? (clientWidth < 640 ? 'unset' : '150px') : '',
+          }"
+          :class="{
+            'flex mb-2': true,
+            'flex-grow-0 mt-3 pl-0': inline && clientWidth > 639,
+            'flex-grow pl-0': !inline || clientWidth < 640,
+          }"
+        >
+          <label
+            :for="name"
+            :class="{
+              'block text-xs font-medium text-gray-900 dark:text-gray-300': true,
+              'text-red-700 dark:text-red-500':
+                properties.errors && properties.errors(name),
+            }"
+          >
+            {{ t(label) }}
+            <span
+              v-if="properties[name].rules.includes('required')"
+              class="text-red-600"
+            >
+              *
+            </span>
+          </label>
+          <div
+            v-if="information"
+            class="ft-sz-12 px-2 text-gray-300 dark:text-gray-800"
+          >
+            <i
+              class="fas fa-question-circle cursor-pointer"
+              @click="methods.onShowDoc"
+            ></i>
+          </div>
+        </div>
+        <div
+          :class="{
+            'px-0': true,
+            'relative flex-grow': inline || clientWidth < 640,
+            'flex-grow': !inline || clientWidth < 640,
+          }"
+        >
+          <input
+            :id="name"
+            v-model="temp.value_"
+            autocomplete="off"
+            type="number"
+            :class="{
+              'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:bg-gray-200 disabled:text-gray-400 dark:disabled:text-gray-400 dark:disabled:bg-gray-600': true,
+              'bg-red-50 border border-red-500 text-red-900  placeholder-red-700 dark:placeholder-red-700 dark:text-red-700 text-sm rounded-lg focus:ring-red-500 focus:outline-none focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400':
+                properties.errors && properties.errors(name),
+            }"
+            :step="step"
+            :min="min"
+            :max="max"
+            :placeholder="t(placeholder)"
+            :disabled="disabled"
+            :readonly="readonly"
+            @change="methods.onChange"
+            @blur="methods.onChange"
+            @focus="methods.onChange"
+            @keyup="methods.onChange"
+            @keydown="methods.onChange"
+          />
+          <form-validation
+            :name="name"
+            :no-margin-top="true"
+            :properties="properties"
+          />
+        </div>
+      </div>
+    </div>
+    <div v-if="docs" :class="{ 'col-span-6 pl-3': true, 'pt-7': !inline }">
+      <Highlight language="js" :code="code" />
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import FormValidation from './Validation.vue'
+  import {
+    computed,
+    defineComponent,
+    inject,
+    onMounted,
+    reactive,
+    ref,
+    watch,
+    defineProps,
+    defineEmits,
+  } from 'vue'
+  import { Highlight } from '~/components/atoms'
+  import { Notyf, t } from '~/services'
+  import { Lang } from '~/types/form/form-v1'
+
+  defineComponent({
+    name: 'Numberfield',
+  })
+
+  const props = defineProps({
+    name: {
+      type: String,
+      required: true,
+    },
+    modelValue: {
+      type: [Number, String],
+      default: null,
+    },
+    outVal: {
+      type: [Number, String],
+      default: null,
+    },
+    label: {
+      type: String,
+      default: 'Label',
+    },
+    placeholder: {
+      type: [String, Object as () => Lang],
+      default: '',
+    },
+    listener: {
+      type: Function,
+      default: null,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
+    hidden: {
+      type: Boolean,
+      default: false,
+    },
+    inline: {
+      type: Boolean,
+      default: false,
+    },
+    docs: {
+      type: Boolean,
+      default: false,
+    },
+    information: {
+      type: String,
+      default: null,
+    },
+    properties: {
+      type: Object,
+      default: null,
+    },
+    fromGenerator: {
+      type: Boolean,
+      default: false,
+    },
+    ready: {
+      type: Number,
+      default: 0,
+    },
+    default: {
+      type: Number,
+      default: null,
+    },
+  })
+
+  const clientWidth = inject('clientWidth')
+  const emit = defineEmits([
+    'update:modelValue',
+    'update:ready',
+    'update:outVal',
+  ])
+  const temp = reactive({
+    value_: 0,
+    value: computed({
+      get: () => props.modelValue,
+      set: (val) => emit('update:modelValue', val),
+    }),
+    outVal: computed({
+      get: () => props.outVal,
+      set: (val) => emit('update:outVal', val),
+    }),
+    ready: computed({
+      get: () => props.ready,
+      set: (val) => emit('update:ready', val),
+    }),
+  })
+
+  // set default value
+  if (temp.value) {
+    temp.value_ =
+      typeof temp.value === 'string' ? parseInt(temp.value) : temp.value
+  } else {
+    temp.value_ = props.default
+  }
+
+  const nativeEdit = ref(false)
+  const step = ref(null)
+  const min = ref(null)
+  const max = ref(null)
+  const rules = props.properties[props.name].rules
+  if (rules && rules.length) {
+    rules.forEach((rule) => {
+      if (rule.includes('decimal')) {
+        step.value = '.'
+        const split = rule.split(':')
+        const digits = parseInt(split[1])
+        for (let i = 0; i < digits; i++) {
+          if (i === digits - 1) {
+            step.value += '1'
+          } else {
+            step.value += '0'
+          }
+        }
+      } else if (rule.includes('min')) {
+        min.value = rule.split(':')[1]
+      } else if (rule.includes('max')) {
+        max.value = rule.split(':')[1]
+      }
+    })
+  }
+
+  const methods = {
+    onChange: (evt) => {
+      if (evt.type !== 'mounted') {
+        nativeEdit.value = true
+        // if (['change', 'keyup', 'keydown'].includes(evt.type)) {
+        //   temp.outVal = temp.value
+        // }
+      }
+
+      temp.value = evt.target.value
+      if (props.listener) {
+        props.listener(props.properties, evt.type, evt.target.value)
+      }
+
+      setTimeout(() => {
+        nativeEdit.value = false
+      }, 100)
+    },
+    onShowDoc: () => {
+      Notyf({
+        type: 'info',
+        message: t(props.information),
+        duration: 3000,
+        ripple: true,
+        dismissible: true,
+        position: {
+          x: 'right',
+          y: 'top',
+        },
+      })
+    },
+  }
+
+  onMounted(() => {
+    if (props.fromGenerator) {
+      setTimeout(() => {
+        methods.onChange({ type: 'mounted', target: { value: temp.value } })
+        temp.ready++
+      }, 100)
+    }
+  })
+
+  watch(
+    () => props.outVal,
+    () => {
+      if (!nativeEdit.value && temp.value !== props.outVal) {
+        temp.value_ =
+          typeof props.outVal === 'string'
+            ? parseInt(props.outVal)
+            : props.outVal
+        methods.onChange({
+          type: 'change',
+          target: {
+            value: temp.value_,
+          },
+        })
+      }
+    },
+  )
+
+  const code = ref(`
+  {
+    type: 'numberfield',
+    value: '',
+    col: 'col-span-12 col-span-lg-6',
+    options: {
+      label: 'Number',
+      information: 'Help text example: Number',
+      inline: true,
+      placeholder: 'Write a text here',
+      readonly: false,
+      disabled: false,
+      hidden: false
+    },
+    listener: (element, type, value) => {
+      // console.log(type)
+    },
+    rules: ['required', 'min:0', 'max:10']
+  }
+`)
+</script>

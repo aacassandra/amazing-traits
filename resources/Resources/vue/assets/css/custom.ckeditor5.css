@@ -1,0 +1,119 @@
+.ck.ck-toolbar {
+    @apply dark:bg-gray-600 dark:border-gray-500;
+}
+
+/*All Buttons in toolbars*/
+.ck.ck-toolbar > .ck.ck-toolbar__items > button,
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown > button,
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck-file-dialog-button > button,
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck-code-block-dropdown > .ck-dropdown__button > button {
+    @apply cursor-pointer dark:text-white dark:bg-gray-600 dark:hover:bg-gray-700 active:outline-none active:ring-0 focus:outline-none focus:ring-0;
+}
+
+/*Font Family, Font Size, Block Code*/
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown > .ck.ck-dropdown__panel.ck-dropdown__panel_se,
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown > .ck.ck-dropdown__panel.ck-dropdown__panel_ne {
+    @apply dark:bg-gray-600 dark:border-gray-500 focus:ring-0 dark:focus:outline-none;
+}
+
+.ck.ck-toolbar > .ck.ck-toolbar__items .ck.ck-dropdown__panel.ck-dropdown__panel_se > ul.ck-list > li > button,
+.ck.ck-toolbar > .ck.ck-toolbar__items .ck.ck-dropdown__panel.ck-dropdown__panel_ne > ul.ck-list > li > button {
+    @apply cursor-pointer dark:bg-gray-600 dark:hover:bg-gray-700 dark:border-gray-600 dark:text-white active:outline-none active:ring-0 focus:outline-none focus:ring-0;
+}
+.ck.ck-toolbar > .ck.ck-toolbar__items .ck.ck-dropdown__panel.ck-dropdown__panel_se > ul.ck-list > li > button.ck-on,
+.ck.ck-toolbar > .ck.ck-toolbar__items .ck.ck-dropdown__panel.ck-dropdown__panel_ne > ul.ck-list > li > button.ck-on {
+    @apply dark:bg-primary;
+}
+
+/*Text Background Color and Text Color*/
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown.ck-color-ui-dropdown > .ck.ck-dropdown__panel.ck-dropdown__panel_se button {
+    @apply cursor-pointer dark:text-white dark:bg-gray-600 dark:hover:bg-gray-700 focus:ring-0 dark:focus:outline-none;
+}
+
+/*Bottom Label on Popup Embed Media*/
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown > .ck.ck-dropdown__panel.ck-dropdown__panel_se form .ck.ck-labeled-field-view__status {
+    @apply dark:text-white;
+}
+
+/*Alignment*/
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown > .ck.ck-dropdown__panel.ck-dropdown__panel_se > .ck.ck-toolbar.ck-toolbar_vertical > .ck.ck-toolbar__items > button {
+    @apply cursor-pointer dark:bg-gray-600 dark:text-white focus:ring-0 dark:focus:outline-none;
+}
+
+/*List*/
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown.ck-list-styles-dropdown button {
+    @apply cursor-pointer dark:bg-gray-600 dark:text-white focus:ring-0 dark:focus:outline-none;
+}
+
+/*Media Embed*/
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown > .ck.ck-dropdown__panel.ck-dropdown__panel_se form h2 {
+    @apply dark:text-white;
+}
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown > .ck.ck-dropdown__panel.ck-dropdown__panel_se form input.ck-input-text {
+    @apply dark:text-white dark:bg-gray-600 dark:border-gray-500 dark:caret-white focus:ring-0 dark:focus:outline-none;
+}
+
+/*Mark*/
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown > .ck.ck-splitbutton.ck-dropdown__button > button {
+    @apply cursor-pointer dark:text-white dark:bg-gray-600 dark:hover:bg-gray-700 focus:ring-0 dark:focus:outline-none;
+}
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown > .ck.ck-dropdown__panel.ck-dropdown__panel_se > .ck.ck-toolbar {
+    @apply dark:text-white dark:bg-gray-600;
+}
+.ck.ck-toolbar > .ck.ck-toolbar__items > .ck.ck-dropdown > .ck.ck-dropdown__panel.ck-dropdown__panel_se > .ck.ck-toolbar > .ck.ck-toolbar__items > button {
+    @apply cursor-pointer dark:text-white dark:bg-gray-600 dark:hover:bg-gray-700 focus:ring-0 dark:focus:outline-none;
+}
+
+.ck.ck-toolbar > .ck.ck-dropdown.ck-toolbar__grouped-dropdown.ck-toolbar-dropdown > button {
+    @apply cursor-pointer dark:text-white dark:bg-gray-600 dark:hover:bg-gray-700 focus:ring-0 dark:focus:outline-none;
+}
+
+.ck.ck-toolbar > .ck.ck-dropdown.ck-toolbar__grouped-dropdown.ck-toolbar-dropdown > .ck-dropdown__panel.ck-dropdown__panel_sw {
+    @apply border dark:border-gray-500;
+}
+
+/*Body*/
+.ck.ck-editor__main {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    @apply border border-gray-300;
+}
+
+.ck.ck-editor__main > .ck.ck-content {
+    @apply border-0 bg-gray-50 dark:bg-gray-700 dark:border-gray-500 dark:text-white;
+}
+
+.ck.ck-editor__main > .ck.ck-content a {
+    @apply cursor-pointer text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-500;
+}
+
+.ck.ck-editor__main > .ck.ck-content ul > li {
+    font-size: 14px;
+    margin-left: 20px;
+    list-style-type: disc;
+}
+
+.ck.ck-editor__main > .ck.ck-content ol > li {
+    font-size: 14px;
+    list-style: decimal;
+    list-style-position: inside;
+    padding-left: 4px;
+}
+
+/*HTML embded*/
+.ck.ck-editor__main > .ck.ck-content > .raw-html-embed > .raw-html-embed__content-wrapper {
+    @apply bg-gray-50 dark:bg-gray-700 dark:border-gray-500 dark:text-white;
+}
+.ck.ck-editor__main > .ck.ck-content > .raw-html-embed > .raw-html-embed__content-wrapper textarea {
+    @apply dark:bg-gray-800;
+}
+
+/*Hide ckeditor logo*/
+body > .ck-body-wrapper > .ck-body.ck-rounded-corners > .ck.ck-balloon-panel.ck-balloon-panel_position_border-side_right.ck-powered-by-balloon > div > a {
+    @apply hidden;
+}
+
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {
+    @apply border focus:border-base-200 focus:shadow-none;
+}

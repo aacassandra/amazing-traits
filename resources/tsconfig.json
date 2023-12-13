@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "skipLibCheck": false,
+    "strict": false,
+    "allowJs": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "types": [
+        "node",
+        "jquery",
+        "vite/client",
+        "@types/tailwindcss",
+        "@types/jquery",
+        "@types/daterangepicker",
+        "@types/summernote",
+        "@types/select2",
+        "@types/selectize",
+        "@types/yaireo__tagify",
+        "@types/leaflet",
+        "@types/highcharts"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["resources/vue/*"]
+    }
+  },
+  "include": [
+    "resources/vue/**/*.ts",
+    "resources/vue/**/*.d.ts",
+    "resources/vue/**/*.tsx",
+    "resources/vue/**/*.vue",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "public",
+    "app",
+    "storage",
+    "config",
+    "database",
+    "bootstrap",
+    "resources/views",
+    "routes",
+    "vendor"
+  ]
+}

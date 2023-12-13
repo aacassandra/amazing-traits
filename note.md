@@ -1,0 +1,1 @@
+kurang pengondisian untuk folder vue di resources
