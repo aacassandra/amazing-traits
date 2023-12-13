@@ -129,6 +129,7 @@
                     alt=""
                     :style="props.column.style"
                   />
+                  <div v-else>-</div>
                 </div>
               </div>
               <div v-else-if="props.column.type === 'rupiah'">
@@ -445,24 +446,26 @@
                 const field = col.field
                 data.rows.forEach((row) => {
                   const galley = document.getElementById(`${field}-${row.id}`)
-                  new Viewer(galley, {
-                    url: 'data-original',
-                    toolbar: {
-                      zoomIn: 1,
-                      zoomOut: 1,
-                      oneToOne: 1,
-                      reset: 1,
-                      prev: 1,
-                      play: {
-                        show: 0,
+                  if (row[field]) {
+                    new Viewer(galley, {
+                      url: 'data-original',
+                      toolbar: {
+                        zoomIn: 1,
+                        zoomOut: 1,
+                        oneToOne: 1,
+                        reset: 1,
+                        prev: 1,
+                        play: {
+                          show: 0,
+                        },
+                        next: 1,
+                        rotateLeft: 1,
+                        rotateRight: 1,
+                        flipHorizontal: 1,
+                        flipVertical: 1,
                       },
-                      next: 1,
-                      rotateLeft: 1,
-                      rotateRight: 1,
-                      flipHorizontal: 1,
-                      flipVertical: 1,
-                    },
-                  })
+                    })
+                  }
                 })
               }
             })
