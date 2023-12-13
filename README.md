@@ -1,4 +1,4 @@
-on config/app.php, add this
+at config/app.php file, you must add this
 ```
     'providers' => ServiceProvider::defaultProviders()->merge([
         /*
@@ -6,4 +6,6 @@ on config/app.php, add this
          */
         AmazingTraits\Providers\AmazingTraitsServiceProvider::class,
 ```
-php artisan vendor:publish="AmazingTraits\Providers\AmazingTraitsServiceProvider"
+
+and then publish with the service provider <br />
+```php artisan vendor:publish --provider="AmazingTraits\Providers\AmazingTraitsServiceProvider"```
