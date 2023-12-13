@@ -1,7 +1,7 @@
 {
     "name": "aacassandra/amazing-traits",
     "type": "library",
-    "license": "GPL",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "AmazingTraits\\": "src/"
