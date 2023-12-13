@@ -61,7 +61,7 @@
                 border-top-left-radius: inherit;
                 border-bottom-left-radius: inherit;
               "
-              :placeholder="placeholder"
+              :placeholder="t(placeholder)"
               :disabled="disabled"
               :readonly="true"
             />
@@ -475,6 +475,7 @@
         if (typeof imgPath === 'string' && imgPath) {
           temp.linkPreview = host + imgPath
           temp.displayValue = imgPath.replace('/storage/uploads/files/', '')
+          temp.linkResponse = imgPath
         }
       }
     },

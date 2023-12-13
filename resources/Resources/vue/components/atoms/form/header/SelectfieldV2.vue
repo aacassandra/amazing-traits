@@ -303,7 +303,7 @@
       return new Promise((resolve) => {
         selector.value = $(`.${props.name}-select2`)
         let select2Config = {
-          placeholder: props.placeholder,
+          placeholder: t(props.placeholder),
           allowClear: props.clearable,
           width: '100%',
         }

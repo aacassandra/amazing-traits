@@ -248,14 +248,12 @@
         methods.onChange({ type: 'blur' })
       })
       .on('change', (e) => {
-        const tempArr: any = []
         nativeEdit.value = true
         if (e.detail.value.length) {
+          temp.value.length = 0
           JSON.parse(e.detail.value).forEach((x: any) => {
-            tempArr.push(x.value)
+            temp.value.push(x.value)
           })
-
-          temp.value = tempArr
         } else {
           temp.value = []
         }

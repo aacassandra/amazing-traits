@@ -359,6 +359,7 @@
       if (typeof imgPath === 'string' && imgPath) {
         tempVal.linkPreview = host + imgPath
         tempVal.displayValue = imgPath.replace('/storage/uploads/files/', '')
+        tempVal.value = imgPath
       }
     }
   })

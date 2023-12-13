@@ -90,7 +90,7 @@
 
   const form = inject('form') as FormSubDetail
   const element = inject('element') as Element
-  const tempVal = ref(
+  const tempVal: Ref<Array<string>> = ref(
     computed({
       get: () =>
         ObjectReader(tempValParent.value[props.rowIndex], props.field) || '',
@@ -105,6 +105,10 @@
   const isReady = ref(false)
   const tagify = ref()
   const nativeEdit = ref(false)
+
+  const elementId = ref(
+    `${props.uniqueId}-${props.field}-${props.rowIndex}`.replace('.', '-'),
+  )
 
   const methods = {
     onChange: (evt) => {
@@ -144,16 +148,14 @@
         methods.onChange({ type: 'blur' })
       })
       .on('change', (e) => {
-        const tempArr: any = []
         nativeEdit.value = true
         if (e.detail.value.length) {
+          tempVal.value.length = 0
           JSON.parse(e.detail.value).forEach((x: any) => {
-            tempArr.push(x.value)
+            tempVal.value.push(x.value)
           })
-
-          tempVal.value = tempArr
         } else {
-          tempVal.value = '[]'
+          tempVal.value = []
         }
         methods.onChange({ type: 'change' })
 

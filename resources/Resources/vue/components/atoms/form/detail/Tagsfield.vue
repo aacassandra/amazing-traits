@@ -35,15 +35,15 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    computed,
-    defineComponent,
-    inject,
-    onMounted,
-    ref,
-    watch,
-    defineProps,
-  } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  onMounted,
+  ref,
+  watch,
+  defineProps, Ref,
+} from 'vue'
   import Tagify from '@yaireo/tagify'
   import FormValidation from './Validation.vue'
   import { FormDetail } from '~/types/form/detail'
@@ -90,7 +90,7 @@
     form: FormDetail
   }
   const element = inject('element') as Element
-  const tempVal = ref(
+  const tempVal: Ref<Array<string>> = ref(
     computed({
       get: () => ObjectReader(temp.form.rows[props.rowIndex], props.field),
       set: (val) =>
@@ -149,13 +149,12 @@
         const tempArr: any = []
         nativeEdit.value = true
         if (e.detail.value.length) {
+          tempVal.value.length = 0
           JSON.parse(e.detail.value).forEach((x: any) => {
-            tempArr.push(x.value)
+            tempVal.value.push(x.value)
           })
-
-          tempVal.value = tempArr
         } else {
-          tempVal.value = '[]'
+          tempVal.value = []
         }
         methods.onChange({ type: 'change' })
 
