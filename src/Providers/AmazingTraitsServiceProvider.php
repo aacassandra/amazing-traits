@@ -19,121 +19,211 @@ class AmazingTraitsServiceProvider extends ServiceProvider
             File::makeDirectory($pathToNewFolder, 0777, true, true);
         }
 
-        $pathToAuthController = app_path('Http/Controllers/API/AuthController.php');
-        if (File::exists($pathToAuthController)) {
-            File::delete($pathToAuthController);
+        $migrations = [
+            'app/Http/Controllers/API/AuthController.php',
+            'app/Exceptions/Handler.php',
+
+            'app/Models/ApiModel.php',
+            'app/Models/ApiModelNoTrait.php',
+            'app/Models/configs.php',
+            'app/Models/d_example.php',
+            'app/Models/e_approval.php',
+            'app/Models/e_approval_d.php',
+            'app/Models/e_approval_logs.php',
+            'app/Models/e_counter.php',
+            'app/Models/m_approval.php',
+            'app/Models/m_approval_d_configs.php',
+            'app/Models/m_approval_d_excludes.php',
+            'app/Models/m_approval_d_rules.php',
+            'app/Models/m_colors.php',
+            'app/Models/m_general.php',
+            'app/Models/m_menu.php',
+            'app/Models/m_models.php',
+            'app/Models/m_roles.php',
+            'app/Models/m_roles_d_api_permissions.php',
+            'app/Models/m_roles_d_ui_mb_permissions.php',
+            'app/Models/m_roles_d_ui_pc_permissions.php',
+            'app/Models/m_roles_d_users.php',
+            'app/Models/m_users.php',
+            'app/Models/m_users_d_device_histories.php',
+            'app/Models/m_users_d_login_histories.php',
+            'app/Models/User.php',
+
+            'app/Mail/SendOtpCode.php',
+            'app/Providers/BroadcastServiceProvider.php',
+
+            'database/migrations/2014_10_12_000000_create_users_table.php',
+            'database/migrations/0000_00_00_000000_create_websockets_statistics_entries_table.php',
+            'database/migrations/2014_10_12_000000_create_m_users_table.php',
+            'database/migrations/2014_10_12_000001_create_m_users_d_device_histories_table.php',
+            'database/migrations/2014_10_12_000002_create_m_users_d_login_histories_table.php',
+            'database/migrations/2022_11_18_003957_create_m_generals_table.php',
+            'database/migrations/2022_12_04_165821_create_e_counters_table.php',
+            'database/migrations/2022_12_07_054519_create_m_models_table.php',
+            'database/migrations/2022_12_07_054520_create_m_roles_table.php',
+            'database/migrations/2022_12_07_054521_create_m_roles_d_users_table.php',
+            'database/migrations/2022_12_07_054522_create_m_roles_d_ui_pc_permissions_table.php',
+            'database/migrations/2022_12_07_054523_create_m_roles_d_ui_mb_permissions_table.php',
+            'database/migrations/2022_12_07_054524_create_m_roles_d_api_permissions_table.php',
+            'database/migrations/2022_12_30_154920_create_m_colors_table.php',
+            'database/migrations/2022_12_31_100032_create_configs_table.php',
+            'database/migrations/2023_02_04_231115_create_d_examples_table.php',
+
+            'database/seeders/configs_seeder.php',
+            'database/seeders/d_example_seeder.php',
+            'database/seeders/DatabaseSeeder.php',
+            'database/seeders/m_colors_seeder.php',
+            'database/seeders/m_general_register_recom_seeder.php',
+            'database/seeders/m_general_scheduler_select_dom_seeder.php',
+            'database/seeders/m_general_seeder.php',
+            'database/seeders/m_general_subscriptions_seeder.php',
+            'database/seeders/m_roles_seeder.php',
+            'database/seeders/m_users_seeder.php',
+
+            'database/administratives_202305211059.csv',
+
+            'routes/api.php',
+            'routes/web.php',
+            'resources/views/vendor/amazing-traits',
+            '.env.amazing-traits',
+            '.editorconfig',
+            '.eslintrc.js',
+            '.prettierrc',
+            'postcss.config.js',
+            'server.php',
+            'tailwind.config.js',
+            'tsconfig.json',
+            'vite.config.ts',
+        ];
+
+        foreach ($migrations as $migration) {
+            $check = base_path($migration);
+            if (File::exists($check)) {
+                File::delete($check);
+            }
         }
 
-        $pathToExceptionHandler = app_path('Exceptions/Handler.php');
-        if (File::exists($pathToExceptionHandler)) {
-            File::delete($pathToExceptionHandler);
-        }
 
-        File::cleanDirectory(app_path('Models'));
+        // File::copy(dirname(__DIR__).'/../resources/Exceptions/Handler.php', base_path('app/Exceptions/Handler.php'));
+        $will_copied = [
+            [
+                'from' => dirname(__DIR__).'/../resources/Exceptions/Handler.php',
+                'to' => base_path('app/Exceptions/Handler.php'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Controllers/API',
+                'to' => app_path('Http/Controllers/API'),
+                'is_directory' => true,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Resources/vue',
+                'to' => resource_path('vue'),
+                'is_directory' => true,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Models',
+                'to' => app_path('Models'),
+                'is_directory' => true,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Database/migrations',
+                'to' => base_path('database/migrations'),
+                'is_directory' => true,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Database/seeders',
+                'to' => base_path('database/seeders'),
+                'is_directory' => true,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Database/administratives_202305211059.csv',
+                'to' => base_path('database/administratives_202305211059.csv'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Mail/SendOtpCode.php',
+                'to' => app_path('Mail/SendOtpCode.php'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Providers/BroadcastServiceProvider.php',
+                'to' => app_path('Providers/BroadcastServiceProvider.php'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Resources/views',
+                'to' => resource_path('views/vendor/amazing-traits'),
+                'is_directory' => true,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/.editorconfig',
+                'to' => base_path('.editorconfig'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/.eslintrc.js',
+                'to' => base_path('.eslintrc.js'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/.prettierrc',
+                'to' => base_path('.prettierrc'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/postcss.config.js',
+                'to' => base_path('postcss.config.js'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/server.php',
+                'to' => base_path('server.php'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/tailwind.config.js',
+                'to' => base_path('tailwind.config.js'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/tsconfig.json',
+                'to' => base_path('tsconfig.json'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/vite.config.ts',
+                'to' => base_path('vite.config.ts'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Routes/api.php',
+                'to' => base_path('routes/api.php'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Routes/web.php',
+                'to' => base_path('routes/web.php'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Controllers/API/MainDocsController.php',
+                'to' => app_path('Http/Controllers/API/MainDocsController.php'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/.env',
+                'to' => base_path('.env.amazing-traits'),
+                'is_directory' => false,
+            ]
+        ];
 
-        $pathToOtpCode = app_path('Mail/SendOtpCode.php');
-        if (File::exists($pathToOtpCode)) {
-            File::delete($pathToOtpCode);
-        }
-
-        $pathToBroadcastServiceProvider = app_path('Providers/BroadcastServiceProvider.php');
-        if (File::exists($pathToBroadcastServiceProvider)) {
-            File::delete($pathToBroadcastServiceProvider);
-        }
-
-        $pathToApiRoute = base_path('routes/api.php');
-        if (File::exists($pathToApiRoute)) {
-            File::delete($pathToApiRoute);
-        }
-
-        $pathToApiWeb = base_path('routes/web.php');
-        if (File::exists($pathToApiWeb)) {
-            File::delete($pathToApiWeb);
-        }
-
-        $pathToResViews = resource_path('views/vendor/amazing-traits');
-        if (File::exists($pathToResViews)) {
-            File::delete($pathToResViews);
-        }
-
-        $pathToEnvFile = base_path('.env.amazing-traits');
-        if (File::exists($pathToEnvFile)) {
-            File::delete($pathToEnvFile);
-        }
-
-        $pathToEditorConfig = base_path('.editorconfig');
-        if (File::exists($pathToEditorConfig)) {
-            File::delete($pathToEditorConfig);
-        }
-
-        $pathToEslintRC = base_path('.eslintrc.js');
-        if (File::exists($pathToEslintRC)) {
-            File::delete($pathToEslintRC);
-        }
-
-        $pathToPrettierRC = base_path('.prettierrc');
-        if (File::exists($pathToPrettierRC)) {
-            File::delete($pathToPrettierRC);
-        }
-
-        $pathToPostcss = base_path('postcss.config.js');
-        if (File::exists($pathToPostcss)) {
-            File::delete($pathToPostcss);
-        }
-
-        $pathToServerPhp = base_path('server.php');
-        if (File::exists($pathToServerPhp)) {
-            File::delete($pathToServerPhp);
-        }
-
-        $pathToTailwindConfigJS = base_path('tailwind.config.js');
-        if (File::exists($pathToTailwindConfigJS)) {
-            File::delete($pathToTailwindConfigJS);
-        }
-
-        $pathToTypescriptJson = base_path('tsconfig.json');
-        if (File::exists($pathToTypescriptJson)) {
-            File::delete($pathToTypescriptJson);
-        }
-
-        $pathToViteConfigJs = base_path('vite.config.ts');
-        if (File::exists($pathToViteConfigJs)) {
-            File::delete($pathToViteConfigJs);
-        }
-
-        $this->publishes([
-            dirname(__DIR__).'/../resources/Controllers/API' => app_path('Http/Controllers/API'),
-            dirname(__DIR__).'/../resources/Resources/vue' => resource_path('vue'),
-            dirname(__DIR__).'/../resources/Exceptions/Handler.php' => app_path('Exceptions/Handler.php'),
-            dirname(__DIR__).'/../resources/Models' => app_path('Models'),
-            dirname(__DIR__).'/../resources/Mail/SendOtpCode.php' => app_path('Mail/SendOtpCode.php'),
-            dirname(__DIR__).'/../resources/Providers/BroadcastServiceProvider.php' => app_path('Providers/BroadcastServiceProvider.php'),
-            dirname(__DIR__).'/../resources/Resources/views' => resource_path('views/vendor/amazing-traits'),
-
-            dirname(__DIR__).'/../resources/.editorconfig' => base_path('.editorconfig'),
-            dirname(__DIR__).'/../resources/.eslintrc.js' => base_path('.eslintrc.js'),
-            dirname(__DIR__).'/../resources/.prettierrc' => base_path('.prettierrc'),
-            dirname(__DIR__).'/../resources/postcss.config.js' => base_path('postcss.config.js'),
-            dirname(__DIR__).'/../resources/server.php' => base_path('server.php'),
-            dirname(__DIR__).'/../resources/tailwind.config.js' => base_path('tailwind.config.js'),
-            dirname(__DIR__).'/../resources/tsconfig.json' => base_path('tsconfig.json'),
-            dirname(__DIR__).'/../resources/vite.config.ts' => base_path('vite.config.ts'),
-        ]);
-
-        if (!File::exists(base_path('routes/api.php'))) {
-            File::copy(dirname(__DIR__).'/../resources/Routes/api.php', base_path('routes/api.php'));
-        }
-
-        if (!File::exists(base_path('routes/web.php'))) {
-            File::copy(dirname(__DIR__).'/../resources/Routes/web.php', base_path('routes/web.php'));
-        }
-
-        if (!File::exists(app_path('Http/Controllers/API/MainDocsController.php'))) {
-            File::copy(dirname(__DIR__).'/../resources/Controllers/API/MainDocsController.php', app_path('Http/Controllers/API/MainDocsController.php'));
-        }
-
-        if (!File::exists(base_path('.env.amazing-traits'))) {
-            File::copy(dirname(__DIR__).'/../resources/.env', base_path('.env.amazing-traits'));
+        foreach ($will_copied as $item) {
+            if ($item['is_directory'] === true) {
+                File::copyDirectory($item['from'], $item['to']);
+            } else {
+                File::copy($item['from'], $item['to']);
+            }
         }
 
         $projectPackageJsonPath = base_path('package.json');
@@ -207,6 +297,17 @@ class AmazingTraitsServiceProvider extends ServiceProvider
         $projectPackageJson['devDependencies']['vue-tsc'] = '^1.2.0';
 
         file_put_contents($projectPackageJsonPath, json_encode($projectPackageJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        $projectComposerPath = base_path('composer.json');
+        $projectComposer = json_decode(file_get_contents($projectComposerPath), true);
+
+        // Menambahkan dependencies yang baru
+        $projectComposer['require']['laravel/passport'] = '^11.8';
+        $projectComposer['require']['beyondcode/laravel-websockets'] = '^1.14';
+        $projectComposer['require']['matanyadaev/laravel-eloquent-spatial'] = '^3.1';
+        $projectComposer['require']['pusher/pusher-php-server'] = '^7.2';
+
+        file_put_contents($projectComposerPath, json_encode($projectComposer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
     /**
