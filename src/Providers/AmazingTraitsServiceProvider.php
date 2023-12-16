@@ -19,7 +19,7 @@ class AmazingTraitsServiceProvider extends ServiceProvider
             File::makeDirectory($pathToNewFolder, 0777, true, true);
         }
 
-        $migrations = [
+        $will_be_delete = [
             'app/Http/Controllers/API/AuthController.php',
             'app/Exceptions/Handler.php',
 
@@ -52,6 +52,9 @@ class AmazingTraitsServiceProvider extends ServiceProvider
             'app/Mail/SendOtpCode.php',
             'app/Providers/BroadcastServiceProvider.php',
 
+            'config/auth.php',
+            'config/model-trait.php',
+
             'database/migrations/2014_10_12_000000_create_users_table.php',
             'database/migrations/0000_00_00_000000_create_websockets_statistics_entries_table.php',
             'database/migrations/2014_10_12_000000_create_m_users_table.php',
@@ -68,6 +71,14 @@ class AmazingTraitsServiceProvider extends ServiceProvider
             'database/migrations/2022_12_30_154920_create_m_colors_table.php',
             'database/migrations/2022_12_31_100032_create_configs_table.php',
             'database/migrations/2023_02_04_231115_create_d_examples_table.php',
+            'database/migrations/2023_05_14_100956_create_m_approvals_table.php',
+            'database/migrations/2023_05_14_101001_create_m_approval_d_rules_table.php',
+            'database/migrations/2023_05_14_101002_create_m_approval_d_configs_table.php',
+            'database/migrations/2023_05_14_101003_create_m_approval_d_excludes_table.php',
+            'database/migrations/2023_05_14_101008_create_e_approvals_table.php',
+            'database/migrations/2023_05_14_101012_create_e_approval_ds_table.php',
+            'database/migrations/2023_05_14_101016_create_e_approval_logs_table.php',
+            'database/migrations/2023_05_14_102112_create_m_menus_table.php',
 
             'database/seeders/configs_seeder.php',
             'database/seeders/d_example_seeder.php',
@@ -96,12 +107,13 @@ class AmazingTraitsServiceProvider extends ServiceProvider
             'vite.config.ts',
         ];
 
-        foreach ($migrations as $migration) {
+        foreach ($will_be_delete as $migration) {
             $check = base_path($migration);
             if (File::exists($check)) {
                 File::delete($check);
             }
         }
+
 
 
         // File::copy(dirname(__DIR__).'/../resources/Exceptions/Handler.php', base_path('app/Exceptions/Handler.php'));
@@ -214,6 +226,16 @@ class AmazingTraitsServiceProvider extends ServiceProvider
             [
                 'from' => dirname(__DIR__).'/../resources/.env',
                 'to' => base_path('.env.amazing-traits'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/model-trait.php',
+                'to' => base_path('config/model-trait.php'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/auth.php',
+                'to' => base_path('config/auth.php'),
                 'is_directory' => false,
             ]
         ];

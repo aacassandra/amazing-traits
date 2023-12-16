@@ -21,6 +21,8 @@ return new class extends Migration
             $table->text('value_1')->nullable();
             $table->text('value_2')->nullable();
             $table->text('value_3')->nullable();
+            $table->text('value_4')->nullable();
+            $table->string('description')->nullable();
             $table->boolean('active_flag');
             $table->bigInteger('created_id');
             $table->bigInteger('updated_id')->nullable();

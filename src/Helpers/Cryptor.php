@@ -45,4 +45,29 @@ class Cryptor {
     {
         return $this->encrypt_decrypt('decrypt', $encrypted);
     }
+
+    public function autoDecrypt($val)
+    {
+        return $val === null ? null : (is_numeric($val) && isset(app()->request->encrypt) && app()->request->encrypt === 'false' ?
+            $val :
+            (is_numeric($val) ? $val : $this->decrypt($val)));
+    }
+
+    public function autoDecryptAllNested($reqArr)
+    {
+        if (is_string($reqArr)) $reqArr = json_decode($reqArr, true);
+
+        foreach ($reqArr as $currentCol => $val) {
+            if (is_array($val)) {
+                // is detail
+                $reqArr[$currentCol] = $this->autoDecryptAllNested($val);
+            } else if ((Str::endswith($currentCol, '_id') && $val && !is_numeric($val))) {
+                $reqArr[$currentCol] = $this->autoDecrypt($val) ?? $val;
+            } else if ($currentCol === 'id') {
+                $reqArr[$currentCol] = $this->autoDecrypt($val) ?? $val;
+            }
+        }
+
+        return $reqArr;
+    }
 }

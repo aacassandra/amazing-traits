@@ -1,7 +1,10 @@
 <?php
 
+use AmazingTraits\Helpers\Cryptor;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 if (!function_exists('getModel')) {
@@ -304,5 +307,80 @@ if (!function_exists('getWhatsappGroupList')) {
 
         // Menampilkan respons dari API
         return json_decode($response);
+    }
+}
+
+if (!function_exists('t')) {
+    function t(string $key, $options = [
+        'lowercase' => false
+    ])
+    {
+        $request = app()->request;
+        $params = \Illuminate\Support\Arr::except($options, ['lowercase']);
+        $lang = $request->query('lang', 'en') ?? $request->input('lang', 'en');
+        if (isset($options['lowercase']) && $options['lowercase'] === true) {
+            $before = strtolower(__($key, $params, $lang));
+            if ($before === $key) {
+                // untuk memberi default value jika translate = key , maka akan dikembalikan key nya
+                if (strpos($before, '.') !== false) {
+                    $tree = explode('.', $before);
+                    return preg_replace('/_+/', ' ', $tree[1]);
+                }
+            }
+
+            return strtolower(__($key, $params, $lang));
+        } else {
+            $before = __($key, $params, $lang);
+            if ($before === $key) {
+                // untuk memberi default value jika translate = key , maka akan dikembalikan key nya
+                if (strpos($before, '.') !== false) {
+                    $tree = explode('.', $before);
+                    return preg_replace('/_+/', ' ', $tree[1]);
+                }
+            }
+
+            return __($key, $params, $lang);
+        }
+    }
+}
+
+if (!function_exists('generate_validation_message')) {
+    function generate_validation_message(array $will_validation) {
+        $messages = [];
+        foreach ($will_validation as $key => $value) {
+            $splits = explode('|', $value);
+            foreach ($splits as $sp) {
+                if (strpos($sp, ':') !== false) {
+                    $subexplode = explode(':', $sp);
+                    if ($subexplode[0] === 'max') {
+                        $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key"), 'max' => $subexplode[1]]);
+                    } elseif ($subexplode[0] === 'min') {
+                        $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key"), 'min' => $subexplode[1]]);
+                    } elseif ($subexplode[0] === 'in') {
+                        $exp = explode(',', $subexplode[1]);
+                        $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key"), 'values' => implode(', ', $exp)]);
+                    } else {
+                        $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key")]);
+                    }
+                } else {
+                    $messages["$key.$sp"] = t("validation.{$sp}", ['attribute' => t("fields.$key", ['lowercase' => true])]);
+                }
+            }
+        }
+
+        return $messages;
+    }
+}
+
+if (!function_exists('smart_validator')) {
+    function smart_validator($data = [], $rules = []) {
+        $data = (new Cryptor)->autoDecryptAllNested($data);
+        $response = json_decode(json_encode([
+            'data' => [],
+            'response' => null
+        ]));
+        $response->data = $data;
+        $response->response = Validator::make($data, $rules, generate_validation_message($rules));
+        return $response;
     }
 }

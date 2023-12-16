@@ -11,10 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(getTablePrefix().'m_roles_d_users', function (Blueprint $table) {
+        Schema::create(env("TABLE_PREFIX").'e_approval', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger(env("TABLE_PREFIX") . 'm_roles_id');
-            $table->bigInteger('user_id')->nullable();
+            $table->bigInteger(getTablePrefix().'m_approval_id');
+            $table->bigInteger('trx_id');
+            $table->string('trx_name');
+            $table->string('trx_no');
+            $table->string('trx_table');
+            $table->date('trx_date');
+            $table->bigInteger('trx_creator_id');
+            $table->text('trx_note')->nullable();
+            $table->string('status');
             $table->bigInteger('created_id');
             $table->bigInteger('updated_id')->nullable();
             $table->bigInteger('deleted_id')->nullable();
@@ -28,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(getTablePrefix().'m_roles_d_users');
+        Schema::dropIfExists(env("TABLE_PREFIX").'e_approval');
     }
 };

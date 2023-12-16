@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create(getTablePrefix().'m_roles_d_ui_mb_permissions', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('ihm_m_roles_id');
+            $table->bigInteger(env("TABLE_PREFIX") . 'm_roles_id');
             $table->string('name', 60);
             $table->string('module', 60);
             $table->string('submodule', 60);
