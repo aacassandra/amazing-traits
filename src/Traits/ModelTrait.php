@@ -130,7 +130,10 @@ trait ModelTrait
         if ( $data ){
             $data = $data->toArray();
         } else {
-            return response()->json(['message'=>'Data tidak ditemukan','errors'=>['No Data']],404);
+            return response()->json([
+                'message' => t('message.data_not_found'),
+                'errors'=> ['No Data']
+            ],404);
         }
 
         if ($this->details ){
@@ -142,7 +145,7 @@ trait ModelTrait
 
         if ( !$data ){
             return response()->json([
-                'message'   => "No data was found",
+                'message'   => t('message.data_not_found'),
                 'data'      => null
             ], 404);
         }
@@ -208,7 +211,7 @@ trait ModelTrait
             if ($validator->fails()) {
                 return response()->json([
                     'success' => false,
-                    "message" => "Sorry, data is invalid.",
+                    "message" => t('message.data_invalid'),
                     "errors" => $validator->errors()->all()
                 ], 422);
             }
@@ -243,7 +246,7 @@ trait ModelTrait
             DB::commit();
             return response()->json([
                 'success' => true,
-                'message' => 'Data saved successfully',
+                'message' => t('message.data_saving_success'),
                 'data' => $createdModel
             ]);
         } catch (\Exception $e) {
@@ -278,7 +281,7 @@ trait ModelTrait
         if (!$createdModel) {
             return response()->json([
                 'success' => false,
-                'message' => "Data is not found for update",
+                'message' => t('message.data_not_found_for_update'),
                 'errors' => ["No Data"]
             ], 404);
         }
@@ -335,7 +338,7 @@ trait ModelTrait
             if ($validator->fails()) {
                 return response()->json([
                     'success' => false,
-                    "message" => "Sorry, data is invalid.",
+                    "message" => t('message.data_invalid'),
                     "errors" => $validator->errors()->all()
                 ], 422);
             }
@@ -361,7 +364,7 @@ trait ModelTrait
             DB::commit();
             return response()->json([
                 'success' => true,
-                'message' => $successMessage ?? 'Data has been updated successfully',
+                'message' => $successMessage ?? t('message.data_updating_success'),
                 'data'  => $createdModel
             ]);
         } catch (\Exception $e) {
@@ -419,14 +422,14 @@ trait ModelTrait
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Data not found'
+                    'message' => t('message.data_not_found')
                 ], 404);
             }
 
             DB::commit();
             return response()->json([
                 'success' => true,
-                'message' => 'Successfully deleting data'
+                'message' => t('message.data_deleting_success')
             ]);
         } catch (\Exception $e) {
             DB::rollback();
