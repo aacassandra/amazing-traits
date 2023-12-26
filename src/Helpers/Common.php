@@ -85,10 +85,11 @@ if (!function_exists('sendResponse')) {
             'success' => true
         ];
 
+        $encrypt = !isset(app()->request->encrypt) || app()->request->encrypt === 'true';
         if (is_array($result)) {
             if (isset($result['data'])) {
                 foreach ($result as $key => $rslt) {
-                    if ($key === 'data') {
+                    if ($key === 'data' && $encrypt) {
                         $cryptor = new \App\Helpers\Cryptor();
                         foreach ($rslt as $item) {
                             foreach ($item as $key => $val) {
@@ -106,16 +107,39 @@ if (!function_exists('sendResponse')) {
                                 }
                             }
                         }
-                        $response[$key] = $rslt;
+                        $response['data'] = $rslt;
                     } else {
                         $response[$key] = $rslt;
                     }
                 }
-            } else if (count($result)) {
+            } else {
                 $response['data'] = $result;
             }
         } else {
-            $response['data'] = $result;
+            foreach ($result as $key => $rslt) {
+                if ($key === 'data' && $encrypt) {
+                    $cryptor = new \App\Helpers\Cryptor();
+                    foreach ($rslt as $item) {
+                        foreach ($item as $key => $val) {
+                            if ($key === 'id') {
+                                $item->$key = $cryptor->encrypt($val);
+                            } else if (Str::endsWith($key, '_id') && is_numeric($val)) {
+                                $item->$key = $cryptor->encrypt($val);
+                            } else if (strpos($key, '.') > -1) {
+                                $exp = explode('.', $key);
+                                if (Str::endsWith($exp[count($exp) - 1], '_id') && is_numeric($val)) {
+                                    $item->$key = $cryptor->encrypt($val);
+                                } else if (Str::is('id', $exp[count($exp) - 1]) && is_numeric($val)) {
+                                    $item->$key = $cryptor->encrypt($val);
+                                }
+                            }
+                        }
+                    }
+                    $response['data'] = $rslt;
+                } else {
+                    $response[$key] = $rslt;
+                }
+            }
         }
 
         if ($message) {
@@ -175,7 +199,7 @@ if (!function_exists('haversineGreatCircleDistance')) {
         $lonDelta = $lonTo - $lonFrom;
 
         $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
-            cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+                cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
         return $angle * $earthRadius;
     }
 }
@@ -258,6 +282,10 @@ if (!function_exists('getTablePrefix')) {
 if (!function_exists('sendWhatsappText')) {
     function sendWhatsappText(string $phone_number, string $message)
     {
+        if (substr($phone_number, 0, 1) === '0') {
+            $phone_number = '62' . substr($phone_number, 1);
+        }
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
