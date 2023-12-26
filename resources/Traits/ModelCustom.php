@@ -1,7 +1,5 @@
 <?php
 
-namespace AmazingTraits\Traits;
-
 trait ModelCustom
 {
     /**

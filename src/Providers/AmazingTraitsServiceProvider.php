@@ -18,6 +18,12 @@ class AmazingTraitsServiceProvider extends ServiceProvider
         if (!File::exists($pathToNewFolder)) {
             File::makeDirectory($pathToNewFolder, 0777, true, true);
         }
+        $pathToNewFolder = app_path('Traits');
+
+        // Periksa apakah folder sudah ada sebelum membuatnya
+        if (!File::exists($pathToNewFolder)) {
+            File::makeDirectory($pathToNewFolder, 0777, true, true);
+        }
 
         $will_be_delete = [
             'app/Http/Controllers/API/AuthController.php',
@@ -53,6 +59,8 @@ class AmazingTraitsServiceProvider extends ServiceProvider
 
             'app/Mail/SendOtpCode.php',
             'app/Providers/BroadcastServiceProvider.php',
+
+            'app/Traits/ModelCustom.php',
 
             'config/auth.php',
             'config/model-trait.php',
@@ -139,6 +147,11 @@ class AmazingTraitsServiceProvider extends ServiceProvider
                 'from' => dirname(__DIR__).'/../resources/Controllers/API',
                 'to' => app_path('Http/Controllers/API'),
                 'is_directory' => true,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Traits/ModelCustom.php',
+                'to' => app_path('Traits/ModelCustom.php'),
+                'is_directory' => false,
             ],
             [
                 'from' => dirname(__DIR__).'/../resources/Resources/vue',

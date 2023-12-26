@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use AmazingTraits\Rules\PointRule;
+use App\Traits\ModelCustom;
 
 trait ModelTrait
 {
