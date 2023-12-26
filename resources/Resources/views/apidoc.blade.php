@@ -23,7 +23,7 @@
     {{--    <script src="https://codemirror.net/5/mode/javascript/javascript.js"></script>--}}
     <script src="https://codemirror.net/5/addon/selection/active-line.js"></script>
     <script src="https://codemirror.net/5/addon/edit/matchbrackets.js"></script>
-    <title>Calegplus API</title>
+    <title>{{ env('APP_NAME', 'Model Trait') }} API</title>
     <link rel="shortcut icon" href="{{ asset('/image/logo/logo-calegplus.png') }}" />
 
     <meta name="title" content="{{ env('APP_NAME') }}">

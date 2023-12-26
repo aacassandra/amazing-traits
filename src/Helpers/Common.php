@@ -384,3 +384,10 @@ if (!function_exists('smart_validator')) {
         return $response;
     }
 }
+
+if (!function_exists('smart_trigger_error')) {
+    function smart_trigger_error(string $message, $errors = [])
+    {
+        return trigger_error(json_encode(['use_smart_trigger_error' => true, 'message' => $message, 'errors' => $errors]));
+    }
+}

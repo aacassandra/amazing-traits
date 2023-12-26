@@ -247,12 +247,21 @@ trait ModelTrait
             ]);
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-                'errors' => @config('errors') ?? [$e->getMessage()],
-                'errorDebug' => @config('errors') ?? [$e->getMessage() . "-" . $e->getLine() . "-" . $e->getFile()],
-            ], 422);
+            if (str_contains($e->getMessage(), 'use_smart_trigger_error')) {
+                $decodeError = json_decode($e->getMessage(), true);
+                return response()->json([
+                    'success' => false,
+                    'message' => $decodeError['message'],
+                    'errors' => $decodeError['errors']
+                ], 422);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                    'errors' => @config('errors') ?? [$e->getMessage()],
+                    'errorDebug' => @config('errors') ?? [$e->getMessage() . "-" . $e->getLine() . "-" . $e->getFile()],
+                ], 422);
+            }
         }
     }
 
@@ -356,11 +365,20 @@ trait ModelTrait
             ]);
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-                'errors' => @config('errors') ?? [$e->getMessage() . "-" . $e->getLine() . "-" . $e->getFile()]
-            ], 422);
+            if (str_contains($e->getMessage(), 'use_smart_trigger_error')) {
+                $decodeError = json_decode($e->getMessage(), true);
+                return response()->json([
+                    'success' => false,
+                    'message' => $decodeError['message'],
+                    'errors' => $decodeError['errors']
+                ], 422);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                    'errors' => @config('errors') ?? [$e->getMessage() . "-" . $e->getLine() . "-" . $e->getFile()]
+                ], 422);
+            }
         }
     }
 
@@ -411,11 +429,20 @@ trait ModelTrait
             ]);
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, something went wrong!',
-                'errors' => [$e->getMessage()]
-            ], 422);
+            if (str_contains($e->getMessage(), 'use_smart_trigger_error')) {
+                $decodeError = json_decode($e->getMessage(), true);
+                return response()->json([
+                    'success' => false,
+                    'message' => $decodeError['message'],
+                    'errors' => $decodeError['errors']
+                ], 422);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Sorry, something went wrong!',
+                    'errors' => [$e->getMessage()]
+                ], 422);
+            }
         }
     }
 }

@@ -22,6 +22,8 @@ class AmazingTraitsServiceProvider extends ServiceProvider
         $will_be_delete = [
             'app/Http/Controllers/API/AuthController.php',
             'app/Exceptions/Handler.php',
+            'app/Console/Commands/MakeModelTrait.php',
+            'app/Console/Commands/UpdateModels.php',
 
             'app/Models/ApiModel.php',
             'app/Models/ApiModelNoTrait.php',
@@ -121,6 +123,16 @@ class AmazingTraitsServiceProvider extends ServiceProvider
             [
                 'from' => dirname(__DIR__).'/../resources/Exceptions/Handler.php',
                 'to' => base_path('app/Exceptions/Handler.php'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Console/Commands/MakeModelTrait.php',
+                'to' => base_path('app/Console/Commands/MakeModelTrait.php'),
+                'is_directory' => false,
+            ],
+            [
+                'from' => dirname(__DIR__).'/../resources/Console/Commands/UpdateModels.php',
+                'to' => base_path('app/Console/Commands/UpdateModels.php'),
                 'is_directory' => false,
             ],
             [

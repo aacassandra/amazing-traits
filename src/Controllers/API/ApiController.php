@@ -315,7 +315,7 @@ class ApiController extends BaseController
                 "endpoints" => $this->generateApiDoc()
             ];
 
-            return view('apidoc', compact('metaData'));
+            return view('vendor/amazing-traits/apidoc', compact('metaData'));
         }
 
         // ======================== GET MODEL / FLY MODEL BY TABLE
