@@ -54,8 +54,6 @@ class MakeModelTrait extends Command
             $this->call('make:migration', [
                 'name' => $migrationName,
             ]);
-        } else {
-            $this->info('Model ' . $modelName . ' created successfully.');
         }
     }
 }

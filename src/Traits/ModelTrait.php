@@ -269,6 +269,33 @@ trait ModelTrait
         }
     }
 
+    public function creatins($multiArrData = null, $customRules = []) {
+        try {
+            foreach ($multiArrData as $arrData) {
+                $creatin = $this->creatin($arrData, $customRules);
+                if ($creatin->original['success'] === false) {
+                    throw new \Exception(json_encode([
+                        'message' => $creatin->original['message'],
+                        'errors' => $creatin->original['errors']
+                    ]));
+                }
+            }
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => t('message.data_saving_success'),
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = json_decode($e->getMessage(), true);
+            return response()->json([
+                'success' => false,
+                'message' => $response['message'],
+                'errors' => $response['errors']
+            ], 422);
+        }
+    }
+
     //  Cara pakai: harus di dalam try catch, setelah validasi manual
     //  ->updatin( id: 1 );
     public function updatin(int $id, $arrData = null, $customRules = [], $successMessage = null)

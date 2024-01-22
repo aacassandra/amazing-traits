@@ -90,7 +90,7 @@ if (!function_exists('sendResponse')) {
             if (isset($result['data'])) {
                 foreach ($result as $key => $rslt) {
                     if ($key === 'data' && $encrypt) {
-                        $cryptor = new \App\Helpers\Cryptor();
+                        $cryptor = new Cryptor();
                         foreach ($rslt as $item) {
                             foreach ($item as $key => $val) {
                                 if ($key === 'id') {
@@ -118,7 +118,7 @@ if (!function_exists('sendResponse')) {
         } else {
             foreach ($result as $key => $rslt) {
                 if ($key === 'data' && $encrypt) {
-                    $cryptor = new \App\Helpers\Cryptor();
+                    $cryptor = new Cryptor();
                     foreach ($rslt as $item) {
                         foreach ($item as $key => $val) {
                             if ($key === 'id') {
