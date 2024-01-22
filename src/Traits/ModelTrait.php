@@ -184,16 +184,16 @@ trait ModelTrait
             $fixedRules = [];
             if (count($customRules)) {
                 $fixedRules = array_filter($customRules, function ($rule) {
-                    return !is_array($rule);
+                    return $rule;
                 });
             } else {
                 $fixedRules = array_filter($rules, function ($rule) {
-                    return !is_array($rule);
+                    return $rule;
                 });
             }
 
             foreach ($fixedRules as $index => $rule) {
-                if (strpos($rule, 'point')) {
+                if (!is_array($rule) && strpos($rule, 'point')) {
                     $split = explode('|', $rule);
                     $fixedRules[$index] = [];
                     foreach ($split as $sp) {
@@ -323,11 +323,11 @@ trait ModelTrait
             $fixedRules = [];
             if (count($customRules)) {
                 $fixedRules = array_filter($customRules, function ($rule) {
-                    return !is_array($rule);
+                    return $rule;
                 });
             } else {
                 $fixedRules = array_filter($rules, function ($rule) {
-                    return !is_array($rule);
+                    return $rule;
                 });
             }
 
@@ -347,7 +347,7 @@ trait ModelTrait
             }
 
             foreach ($fixedRules as $index => $rule) {
-                if (strpos($rule, 'point')) {
+                if (!is_array($rule) && strpos($rule, 'point')) {
                     $split = explode('|', $rule);
                     $fixedRules[$index] = [];
                     foreach ($split as $sp) {
