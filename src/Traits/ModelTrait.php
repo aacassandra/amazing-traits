@@ -183,13 +183,17 @@ trait ModelTrait
             $details = @$this->details ?? [];
             $fixedRules = [];
             if (count($customRules)) {
-                $fixedRules = array_filter($customRules, function ($rule) {
-                    return $rule;
-                });
+                foreach ($customRules as $key => $value) {
+                    if (strpos($key, '.*') === false) {
+                        $fixedRules[$key] = $value;
+                    }
+                }
             } else {
-                $fixedRules = array_filter($rules, function ($rule) {
-                    return $rule;
-                });
+                foreach ($rules as $key => $value) {
+                    if (strpos($key, '.*') === false) {
+                        $fixedRules[$key] = $value;
+                    }
+                }
             }
 
             foreach ($fixedRules as $index => $rule) {
@@ -322,13 +326,17 @@ trait ModelTrait
 
             $fixedRules = [];
             if (count($customRules)) {
-                $fixedRules = array_filter($customRules, function ($rule) {
-                    return $rule;
-                });
+                foreach ($customRules as $key => $value) {
+                    if (strpos($key, '.*') === false) {
+                        $fixedRules[$key] = $value;
+                    }
+                }
             } else {
-                $fixedRules = array_filter($rules, function ($rule) {
-                    return $rule;
-                });
+                foreach ($rules as $key => $value) {
+                    if (strpos($key, '.*') === false) {
+                        $fixedRules[$key] = $value;
+                    }
+                }
             }
 
             //  cast data joinan FK ke decrypted id
