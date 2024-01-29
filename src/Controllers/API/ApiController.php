@@ -656,6 +656,13 @@ class ApiController extends BaseController
                 foreach ($body['columnFilters'] as $key => $value) {
                     if (Str::endsWith($key, '_date')) {
                         $req = $req->where($key, '=', $value);
+                    } else if (Str::endsWith($key, 'select_range')) {
+                        if ($value['start'] && $value['end']) {
+                            $mdl = $model->getTable();
+                            $req = $req
+                                ->whereDate("$mdl.created_at", '>=', $value['start'])
+                                ->whereDate("$mdl.created_at", '<=', $value['end']);
+                        }
                     } else {
                         if (is_string($value)) {
                             $req = $req->where($key, 'LIKE', '%'.$value.'%');
