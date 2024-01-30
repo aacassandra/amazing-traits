@@ -376,22 +376,24 @@ if (!function_exists('generate_validation_message')) {
     function generate_validation_message(array $will_validation) {
         $messages = [];
         foreach ($will_validation as $key => $value) {
-            $splits = explode('|', $value);
-            foreach ($splits as $sp) {
-                if (strpos($sp, ':') !== false) {
-                    $subexplode = explode(':', $sp);
-                    if ($subexplode[0] === 'max') {
-                        $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key"), 'max' => $subexplode[1]]);
-                    } elseif ($subexplode[0] === 'min') {
-                        $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key"), 'min' => $subexplode[1]]);
-                    } elseif ($subexplode[0] === 'in') {
-                        $exp = explode(',', $subexplode[1]);
-                        $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key"), 'values' => implode(', ', $exp)]);
+            if (!is_array($value)) {
+                $splits = explode('|', $value);
+                foreach ($splits as $sp) {
+                    if (strpos($sp, ':') !== false) {
+                        $subexplode = explode(':', $sp);
+                        if ($subexplode[0] === 'max') {
+                            $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key"), 'max' => $subexplode[1]]);
+                        } elseif ($subexplode[0] === 'min') {
+                            $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key"), 'min' => $subexplode[1]]);
+                        } elseif ($subexplode[0] === 'in') {
+                            $exp = explode(',', $subexplode[1]);
+                            $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key"), 'values' => implode(', ', $exp)]);
+                        } else {
+                            $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key")]);
+                        }
                     } else {
-                        $messages["$key.{$subexplode[0]}"] = t("validation.{$subexplode[0]}", ['attribute' => t("fields.$key")]);
+                        $messages["$key.$sp"] = t("validation.{$sp}", ['attribute' => t("fields.$key", ['lowercase' => true])]);
                     }
-                } else {
-                    $messages["$key.$sp"] = t("validation.{$sp}", ['attribute' => t("fields.$key", ['lowercase' => true])]);
                 }
             }
         }
