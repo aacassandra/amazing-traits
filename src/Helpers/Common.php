@@ -205,30 +205,39 @@ if (!function_exists('haversineGreatCircleDistance')) {
 }
 
 if (!function_exists('generate_code')) {
-    function generate_code(String $table_name, String $prefix): string
+    function generate_code(String $table_name, String $prefix, $clientId = null): string
     {
         $code = '';
         $counterTbl = env('TABLE_PREFIX') . 'e_counter';
         DB::beginTransaction();
         try {
-            $counter = DB::table("$counterTbl")->where([
+            $where = [
                 ['table_name', '=', $table_name],
                 ['year', '=', date('Y')]
-            ])->first();
+            ];
+
+            if ($clientId !== null) {
+                $where[] = ['client_id', '=', $clientId];
+            }
+
+            $counter = DB::table("$counterTbl")->where($where)->first();
             if (!$counter) {
-                DB::table("$counterTbl")->insert([
+                $willBeSaved = [
                     'table_name' => $table_name,
                     'year' => date('Y'),
                     'value' => 1,
                     'created_at' => now()
-                ]);
+                ];
+
+                if ($clientId !== null) {
+                    $willBeSaved['client_id'] = $clientId;
+                }
+
+                DB::table("$counterTbl")->insert($willBeSaved);
                 $code = "$prefix-0000001";
             } else {
                 $newCounter = $counter->value + 1;
-                DB::table("$counterTbl")->where([
-                    ['table_name', '=', $table_name],
-                    ['year', '=', date('Y')]
-                ])->update([
+                DB::table("$counterTbl")->where($where)->update([
                     'value' => $newCounter
                 ]);
                 $code = "$prefix-";
