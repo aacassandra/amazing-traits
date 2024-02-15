@@ -675,7 +675,11 @@ class ApiController extends BaseController
 
             if ($request->sort && count($request->sort)) {
                 foreach ($request->sort as $sort) {
-                    $req = $req->orderBy($sort['field'], $sort['type']);
+                    if ($sort['type'] === 'none') {
+                        $req = $req->orderBy($sort['field'], 'ASC');
+                    } else {
+                        $req = $req->orderBy($sort['field'], $sort['type']);
+                    }
                 }
             }
 
