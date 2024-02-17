@@ -665,9 +665,9 @@ class ApiController extends BaseController
                         }
                     } else {
                         if (is_string($value)) {
-                            $req = $req->where($key, 'LIKE', '%'.$value.'%');
+                            $req = $req->orWhere($key, 'LIKE', '%'.$value.'%');
                         } else {
-                            $req = $req->where($key, '=', $value);
+                            $req = $req->orWhere($key, '=', $value);
                         }
                     }
                 }
