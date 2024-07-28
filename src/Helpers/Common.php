@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Exception;
 
 if (!function_exists('getModel')) {
     function getModel(string $modelOrTable, $clean = false, $trait = true)
@@ -199,7 +201,7 @@ if (!function_exists('haversineGreatCircleDistance')) {
         $lonDelta = $lonTo - $lonFrom;
 
         $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
-                cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+            cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
         return $angle * $earthRadius;
     }
 }
@@ -295,27 +297,50 @@ if (!function_exists('sendWhatsappText')) {
             $phone_number = '62' . substr($phone_number, 1);
         }
 
-        $curl = curl_init();
+        try {
+            $host = env('WHATSAPP_SEND_TEXT_API_URL');
+            $body  = [
+                'msisdn' => $phone_number,
+                'message' => $message,
+            ];
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => env('WHATSAPP_SEND_TEXT_API_URL'),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => http_build_query(array('msisdn' => $phone_number, 'message' => $message)),
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' . env('WHATSAPP_BEARER_TOKEN'),
-                'Content-Type: application/x-www-form-urlencoded'
-            ),
-        ));
+            $response = Http::asMultipart()
+                ->withToken(env('WHATSAPP_BEARER_TOKEN'))
+                ->withHeaders([
+                    'accept' => 'application/json',
+                ])
+                ->post(sprintf("%s", $host), $body)->json();
 
-        $response = curl_exec($curl);
-        curl_close($curl);
-        return json_decode($response, true);
+            return $response;
+        } catch (Exception $ex) {
+            return [
+                "status" => false,
+                "code" => 500,
+                "message" => "Internal server error " . $ex->getMessage()
+            ];
+        }
+
+        // $curl = curl_init();
+
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => env('WHATSAPP_SEND_TEXT_API_URL'),
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => '',
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 0,
+        //     CURLOPT_FOLLOWLOCATION => true,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => 'POST',
+        //     CURLOPT_POSTFIELDS => http_build_query(array('msisdn' => $phone_number, 'message' => $message)),
+        //     CURLOPT_HTTPHEADER => array(
+        //         'Authorization: Bearer ' . env('WHATSAPP_BEARER_TOKEN'),
+        //         'Content-Type: application/x-www-form-urlencoded'
+        //     ),
+        // ));
+
+        // $response = curl_exec($curl);
+        // curl_close($curl);
+        // return json_decode($response, true);
     }
 }
 
@@ -383,7 +408,8 @@ if (!function_exists('t')) {
 }
 
 if (!function_exists('generate_validation_message')) {
-    function generate_validation_message(array $will_validation) {
+    function generate_validation_message(array $will_validation)
+    {
         $messages = [];
         foreach ($will_validation as $key => $value) {
             if (!is_array($value)) {
@@ -413,7 +439,8 @@ if (!function_exists('generate_validation_message')) {
 }
 
 if (!function_exists('smart_validator')) {
-    function smart_validator($data = [], $rules = []) {
+    function smart_validator($data = [], $rules = [])
+    {
         $data = (new Cryptor)->autoDecryptAllNested($data);
         $response = json_decode(json_encode([
             'data' => [],
