@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
-use Exception;
 
 if (!function_exists('getModel')) {
     function getModel(string $modelOrTable, $clean = false, $trait = true)
@@ -312,11 +311,11 @@ if (!function_exists('sendWhatsappText')) {
                 ->post(sprintf("%s", $host), $body)->json();
 
             return $response;
-        } catch (Exception $ex) {
+        } catch (\Exception $e) {
             return [
                 "status" => false,
                 "code" => 500,
-                "message" => "Internal server error " . $ex->getMessage()
+                "message" => "Internal server error " . $e->getMessage()
             ];
         }
 
