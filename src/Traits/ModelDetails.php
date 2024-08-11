@@ -23,9 +23,9 @@ trait ModelDetails
             if (method_exists($this, $key) && is_array($val)) {
                 //  jika pakai hasMany
                 $createdModel->$key()->createMany($val);
-            } elseif(strpos(json_encode($details), $key)) {
+            } elseif (strpos(json_encode($details), $key)) {
                 $allow = false;
-                if (str_contains($rules[$key], 'nullable')) {
+                if (isset($rules[$key]) && str_contains($rules[$key], 'nullable')) {
                     if ($val && is_array($val)) {
                         $allow = true;
                     }
@@ -42,9 +42,9 @@ trait ModelDetails
                             trigger_error("Detail of $key is not found");
                         }
 
-                        $fk = $createdModel->getOnlyTable()."_id";
-                        foreach($details as $idx => $dtl){
-                            if(str_starts_with($dtl, $key) && strpos($dtl, ':')){
+                        $fk = $createdModel->getOnlyTable() . "_id";
+                        foreach ($details as $idx => $dtl) {
+                            if (str_starts_with($dtl, $key) && strpos($dtl, ':')) {
                                 $fk = explode(':', $dtl)[1];
                             }
                         }
@@ -137,10 +137,10 @@ trait ModelDetails
                 //  jika pakai hasMany
                 $createdModel->$key()->delete();
                 $createdModel->$key()->createMany($val);
-            } elseif(strpos(json_encode($details), $key)) {
+            } elseif (strpos(json_encode($details), $key)) {
                 $allow = false;
                 $modelDtl = $this->getModel($key);
-                if (str_contains($rules[$key], 'nullable')) {
+                if (isset($rules[$key]) && str_contains($rules[$key], 'nullable')) {
                     if ($val && is_array($val)) {
                         $allow = true;
                     } else {
@@ -160,9 +160,9 @@ trait ModelDetails
                     if (!$modelDtl) {
                         trigger_error("Detail of $key is not found");
                     }
-                    $fk = $createdModel->getOnlyTable()."_id";
-                    foreach($details as $idx => $dtl){
-                        if(str_starts_with($dtl, $key) && strpos($dtl, ':')){
+                    $fk = $createdModel->getOnlyTable() . "_id";
+                    foreach ($details as $idx => $dtl) {
+                        if (str_starts_with($dtl, $key) && strpos($dtl, ':')) {
                             $fk = explode(':', $dtl)[1];
                         }
                     }
@@ -300,28 +300,28 @@ trait ModelDetails
     public function detailinDetails(array $details, string $tableName, mixed $decryptedId, array $data, $debug = false)
     {
         $req = app()->request;
-        foreach ($details as $detailName){
-            if (strpos($detailName, ':')){
+        foreach ($details as $detailName) {
+            if (strpos($detailName, ':')) {
                 $detailName = explode(':', $detailName);
                 $detailName = $detailName[0];
             }
             $model = $this->getModel($detailName);
             $dtlModel = $model->scopes($this->scopes);
 
-            if (app()->request->has('all')){
+            if (app()->request->has('all')) {
                 $dtlModel = $dtlModel->withTrashed();
             }
 
-            if (!$dtlModel){
+            if (!$dtlModel) {
                 return response()->json([
                     'message' => "Resource of $detailName is not found",
                     "errors" => ["Resource of $detailName is not found"]
                 ], 404);
             }
 
-            $fk = $tableName."_id";
-            foreach($details as $idx => $dtl){
-                if(str_starts_with($dtl, $detailName) && strpos($dtl, ':')){
+            $fk = $tableName . "_id";
+            foreach ($details as $idx => $dtl) {
+                if (str_starts_with($dtl, $detailName) && strpos($dtl, ':')) {
                     $fk = explode(':', $dtl)[1];
                 }
             }
@@ -330,7 +330,7 @@ trait ModelDetails
             $detailsSub = @$model->details ?? [];
 
             $data[$detailName] = $dtlModel
-                ->where( $fk, $decryptedId )
+                ->where($fk, $decryptedId)
                 ->orderBy('id')->get();
 
 
@@ -357,17 +357,17 @@ trait ModelDetails
                 if (count($detailsSub)) {
                     foreach ($dtl->details as $subdetailName) {
                         $subdata = [];
-                        if(strpos($subdetailName,':')){
+                        if (strpos($subdetailName, ':')) {
                             $subdetailName = explode(':', $subdetailName)[0];
                         }
                         $subdata = $this->detailinDetails($dtl->details, $dtl->getOnlyTable(), $this->autoDecrypt($dtl->id), $subdata, true);
-                        if (isset($subdata->original)){
+                        if (isset($subdata->original)) {
                             return response()->json($subdata->original, $subdata->status());
                         }
                         $dtl->$subdetailName = $subdata[$subdetailName];
                     }
                 }
-                if($req->encrypt === true || $req->encrypt === 'true'){
+                if ($req->encrypt === true || $req->encrypt === 'true') {
                     foreach ($dtl->toArray() as $dkey => $dval) {
                         if (Str::endsWith($dkey, '_id') && is_numeric($dval)) {
                             $dtl[$dkey] = $this->encrypt($dval);
