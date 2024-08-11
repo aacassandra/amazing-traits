@@ -250,12 +250,10 @@ class AmazingTraitsServiceProvider extends ServiceProvider
         ];
 
         foreach ($will_copied as $migration) {
-            if (!File::exists($migration['to'])) {
-                if ($migration['is_directory'] === true) {
-                    File::copyDirectory($migration['from'], $migration['to']);
-                } else {
-                    File::copy($migration['from'], $migration['to']);
-                }
+            if ($migration['is_directory'] === true) {
+                File::copyDirectory($migration['from'], $migration['to']);
+            } else {
+                File::copy($migration['from'], $migration['to']);
             }
         }
     }
