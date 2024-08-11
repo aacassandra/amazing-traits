@@ -7,24 +7,8 @@ use Illuminate\Support\ServiceProvider;
 
 class AmazingTraitsServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
-    public function register(): void
+    private function willBeDelete()
     {
-        $pathToNewFolder = app_path('Http/Controllers/API');
-
-        // Periksa apakah folder sudah ada sebelum membuatnya
-        if (!File::exists($pathToNewFolder)) {
-            File::makeDirectory($pathToNewFolder, 0777, true, true);
-        }
-        $pathToNewFolder = app_path('Traits');
-
-        // Periksa apakah folder sudah ada sebelum membuatnya
-        if (!File::exists($pathToNewFolder)) {
-            File::makeDirectory($pathToNewFolder, 0777, true, true);
-        }
-
         $will_be_delete = [
             'app/Http/Controllers/API/AuthController.php',
             'app/Exceptions/Handler.php',
@@ -123,156 +107,208 @@ class AmazingTraitsServiceProvider extends ServiceProvider
                 File::delete($check);
             }
         }
+    }
 
-
-
-        // File::copy(dirname(__DIR__).'/../resources/Exceptions/Handler.php', base_path('app/Exceptions/Handler.php'));
+    private function willCopied()
+    {
         $will_copied = [
             [
-                'from' => dirname(__DIR__).'/../resources/Exceptions/Handler.php',
+                'from' => dirname(__DIR__) . '/../resources/Exceptions/Handler.php',
                 'to' => base_path('app/Exceptions/Handler.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Console/Commands/MakeModelTrait.php',
+                'from' => dirname(__DIR__) . '/../resources/Console/Commands/MakeModelTrait.php',
                 'to' => base_path('app/Console/Commands/MakeModelTrait.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Console/Commands/UpdateModels.php',
+                'from' => dirname(__DIR__) . '/../resources/Console/Commands/UpdateModels.php',
                 'to' => base_path('app/Console/Commands/UpdateModels.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Controllers/API',
+                'from' => dirname(__DIR__) . '/../resources/Controllers/API',
                 'to' => app_path('Http/Controllers/API'),
                 'is_directory' => true,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Traits/ModelCustom.php',
+                'from' => dirname(__DIR__) . '/../resources/Traits/ModelCustom.php',
                 'to' => app_path('Traits/ModelCustom.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Resources/vue',
+                'from' => dirname(__DIR__) . '/../resources/Resources/vue',
                 'to' => resource_path('vue'),
                 'is_directory' => true,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Models',
+                'from' => dirname(__DIR__) . '/../resources/Models',
                 'to' => app_path('Models'),
                 'is_directory' => true,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Database/migrations',
+                'from' => dirname(__DIR__) . '/../resources/Database/migrations',
                 'to' => base_path('database/migrations'),
                 'is_directory' => true,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Database/seeders',
+                'from' => dirname(__DIR__) . '/../resources/Database/seeders',
                 'to' => base_path('database/seeders'),
                 'is_directory' => true,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Database/administratives_202305211059.csv',
+                'from' => dirname(__DIR__) . '/../resources/Database/administratives_202305211059.csv',
                 'to' => base_path('database/administratives_202305211059.csv'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Mail/SendOtpCode.php',
+                'from' => dirname(__DIR__) . '/../resources/Mail/SendOtpCode.php',
                 'to' => app_path('Mail/SendOtpCode.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Providers/BroadcastServiceProvider.php',
+                'from' => dirname(__DIR__) . '/../resources/Providers/BroadcastServiceProvider.php',
                 'to' => app_path('Providers/BroadcastServiceProvider.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Resources/views',
+                'from' => dirname(__DIR__) . '/../resources/Resources/views',
                 'to' => resource_path('views/vendor/amazing-traits'),
                 'is_directory' => true,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/.editorconfig',
+                'from' => dirname(__DIR__) . '/../resources/.editorconfig',
                 'to' => base_path('.editorconfig'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/.eslintrc.js',
+                'from' => dirname(__DIR__) . '/../resources/.eslintrc.js',
                 'to' => base_path('.eslintrc.js'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/.prettierrc',
+                'from' => dirname(__DIR__) . '/../resources/.prettierrc',
                 'to' => base_path('.prettierrc'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/postcss.config.js',
+                'from' => dirname(__DIR__) . '/../resources/postcss.config.js',
                 'to' => base_path('postcss.config.js'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/server.php',
+                'from' => dirname(__DIR__) . '/../resources/server.php',
                 'to' => base_path('server.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/tailwind.config.js',
+                'from' => dirname(__DIR__) . '/../resources/tailwind.config.js',
                 'to' => base_path('tailwind.config.js'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/tsconfig.json',
+                'from' => dirname(__DIR__) . '/../resources/tsconfig.json',
                 'to' => base_path('tsconfig.json'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/vite.config.ts',
+                'from' => dirname(__DIR__) . '/../resources/vite.config.ts',
                 'to' => base_path('vite.config.ts'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Routes/api.php',
+                'from' => dirname(__DIR__) . '/../resources/Routes/api.php',
                 'to' => base_path('routes/api.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Routes/web.php',
+                'from' => dirname(__DIR__) . '/../resources/Routes/web.php',
                 'to' => base_path('routes/web.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/Controllers/API/MainDocsController.php',
+                'from' => dirname(__DIR__) . '/../resources/Controllers/API/MainDocsController.php',
                 'to' => app_path('Http/Controllers/API/MainDocsController.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/.env',
+                'from' => dirname(__DIR__) . '/../resources/.env',
                 'to' => base_path('.env.amazing-traits'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/model-trait.php',
+                'from' => dirname(__DIR__) . '/../resources/model-trait.php',
                 'to' => base_path('config/model-trait.php'),
                 'is_directory' => false,
             ],
             [
-                'from' => dirname(__DIR__).'/../resources/auth.php',
+                'from' => dirname(__DIR__) . '/../resources/auth.php',
                 'to' => base_path('config/auth.php'),
                 'is_directory' => false,
             ]
         ];
 
-        foreach ($will_copied as $item) {
-            if ($item['is_directory'] === true) {
-                File::copyDirectory($item['from'], $item['to']);
-            } else {
-                File::copy($item['from'], $item['to']);
+        foreach ($will_copied as $migration) {
+            if (!File::exists($migration['to'])) {
+                if ($migration['is_directory'] === true) {
+                    File::copyDirectory($migration['from'], $migration['to']);
+                } else {
+                    File::copy($migration['from'], $migration['to']);
+                }
             }
         }
+    }
+    /**
+     * Register services.
+     */
+    public function boot(): void
+    {
+        if ($this->app->runningInConsole() && $this->commandInVendorPublish()) {
+            $appPaths = [
+                app_path('Http/Controllers/API'),
+                app_path('Traits'),
+                app_path('Mail'),
+                app_path('Console/Commands')
+            ];
 
+            foreach ($appPaths as $appPath) {
+                // Periksa apakah folder sudah ada sebelum membuatnya
+                if (!File::exists($appPath)) {
+                    File::makeDirectory($appPath, 0777, true, true);
+                }
+            }
+
+            $this->willBeDelete();
+            $this->willCopied();
+
+            $this->updateProjectJsonFiles();
+        }
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Check if the current command is 'vendor:publish'
+     *
+     * @return bool
+     */
+    private function commandInVendorPublish()
+    {
+        return in_array('vendor:publish', $this->app->make('request')->server->get('argv'));
+    }
+
+    /**
+     * Update project json files.
+     */
+    private function updateProjectJsonFiles()
+    {
         $projectPackageJsonPath = base_path('package.json');
         $projectPackageJson = json_decode(file_get_contents($projectPackageJsonPath), true);
 
@@ -355,13 +391,5 @@ class AmazingTraitsServiceProvider extends ServiceProvider
         $projectComposer['require']['pusher/pusher-php-server'] = '^7.2';
 
         file_put_contents($projectComposerPath, json_encode($projectComposer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-    }
-
-    /**
-     * Bootstrap services.
-     */
-    public function boot(): void
-    {
-        //
     }
 }
